@@ -9,7 +9,6 @@ final class CategoriesInitial extends CategoriesEvent {
   const CategoriesInitial();
 }
 
-
 final class CategoriesDelete extends CategoriesEvent {
   const CategoriesDelete();
 }
@@ -18,4 +17,7 @@ final class CategoriesDeleteAll extends CategoriesEvent {
   const CategoriesDeleteAll();
 }
 
-
+final class CategoriesAdd extends CategoriesEvent {
+  const CategoriesAdd({required this.categoryModel});
+  final CategoryModel categoryModel;
+}

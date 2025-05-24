@@ -11,6 +11,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc(this._categoryRepository) : super(const CategoriesState()) {
     on<CategoriesInitial>(_initial);
     on<CategoriesDeleteAll>(_deleteAll);
+    on<CategoriesAdd>(_addCategory);
   }
 
   final CategoryRepository _categoryRepository;
@@ -53,5 +54,15 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     } catch (e) {
       logger.e(e.toString());
     }
+  }
+
+  Future<void> _addCategory(
+    CategoriesAdd event,
+    Emitter<CategoriesState> emit,
+  ) async {
+    state.categories.insert(0, event.categoryModel);
+    emit(
+      state.copyWith(categories: List.of(state.categories)),
+    );
   }
 }

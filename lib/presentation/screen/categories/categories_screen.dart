@@ -1,45 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:stories_admin/config/router/routers.dart';
 import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
-import 'package:stories_data/core/di.dart';
 import 'package:stories_data/models/category_model.dart';
-import 'package:stories_data/repositories/category_repository.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final categoryRepository = sl<CategoryRepository>();
-    return BlocProvider(
-      create: (context) => CategoriesBloc(categoryRepository)
-        ..add(
-          CategoriesInitial(),
-        ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Категории'),
-          actions: [
-            ButtonDeleteCategories(),
-          ],
-        ),
-        floatingActionButton: ButtonAddCategory(),
-        body: BlocBuilder<CategoriesBloc, CategoriesState>(
-          builder: (context, state) {
-            switch (state.status) {
-              case CategoriesStatus.initial:
-                return CircularProgressIndicator.adaptive();
-              case CategoriesStatus.success:
-                return CategoriesScreenBody();
-              case CategoriesStatus.failure:
-                return Center(
-                  child: Text(
-                    state.exception?.message ?? "",
-                  ),
-                );
-            }
-          },
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Категории'),
+        actions: [
+          ButtonDeleteCategories(),
+        ],
+      ),
+      floatingActionButton: ButtonAddCategory(),
+      body: BlocBuilder<CategoriesBloc, CategoriesState>(
+        builder: (context, state) {
+          switch (state.status) {
+            case CategoriesStatus.initial:
+              return CircularProgressIndicator.adaptive();
+            case CategoriesStatus.success:
+              return CategoriesScreenBody();
+            case CategoriesStatus.failure:
+              return Center(
+                child: Text(
+                  state.exception?.message ?? "",
+                ),
+              );
+          }
+        },
       ),
     );
   }
@@ -52,7 +45,9 @@ class ButtonAddCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return FloatingActionButton(
       child: Icon(Icons.add),
-      onPressed: () {},
+      onPressed: () => context.pushNamed(
+        Routers.pathCategoryCreateScreen,
+      ),
     );
   }
 }
