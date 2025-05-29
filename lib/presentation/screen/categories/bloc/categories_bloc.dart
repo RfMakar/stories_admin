@@ -10,8 +10,10 @@ part 'categories_state.dart';
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
   CategoriesBloc(this._categoryRepository) : super(const CategoriesState()) {
     on<CategoriesInitial>(_initial);
+    on<CategoriesDelete>(_deleteCategory);
     on<CategoriesDeleteAll>(_deleteAll);
     on<CategoriesAdd>(_addCategory);
+    on<CategoriesUpdate>(_updateCategory);
   }
 
   final CategoryRepository _categoryRepository;
@@ -25,6 +27,33 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       emit(state.copyWith(
         status: CategoriesStatus.success,
         categories: List.of(data),
+      ));
+    } on DioException catch (exception) {
+      emit(state.copyWith(
+        status: CategoriesStatus.failure,
+        exception: exception,
+      ));
+    } catch (e) {
+      logger.e(e.toString());
+    }
+  }
+
+  Future<void> _deleteCategory(
+    CategoriesDelete event,
+    Emitter<CategoriesState> emit,
+  ) async {
+    if (event.categoryId.trim().isEmpty) {
+      return;
+    }
+    try {
+      await _categoryRepository.deleteCategory(
+        id: event.categoryId,
+      );
+      state.categories.removeWhere((i) => i.id == event.categoryId);
+
+      emit(state.copyWith(
+        status: CategoriesStatus.success,
+        categories: List.of(state.categories),
       ));
     } on DioException catch (exception) {
       emit(state.copyWith(
@@ -63,6 +92,24 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     state.categories.insert(0, event.categoryModel);
     emit(
       state.copyWith(categories: List.of(state.categories)),
+    );
+  }
+
+  Future<void> _updateCategory(
+    CategoriesUpdate event,
+    Emitter<CategoriesState> emit,
+  ) async {
+    final categoryIndex = state.categories.indexWhere(
+      (i) => i.id == event.categoryModel.id,
+    );
+
+    state.categories[categoryIndex] = event.categoryModel;
+
+    emit(
+      state.copyWith(
+        // status: CategoriesStatus.success,
+        categories: List.of(state.categories),
+      ),
     );
   }
 }

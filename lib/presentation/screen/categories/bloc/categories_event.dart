@@ -10,7 +10,8 @@ final class CategoriesInitial extends CategoriesEvent {
 }
 
 final class CategoriesDelete extends CategoriesEvent {
-  const CategoriesDelete();
+  const CategoriesDelete({required this.categoryId});
+  final String categoryId;
 }
 
 final class CategoriesDeleteAll extends CategoriesEvent {
@@ -19,5 +20,10 @@ final class CategoriesDeleteAll extends CategoriesEvent {
 
 final class CategoriesAdd extends CategoriesEvent {
   const CategoriesAdd({required this.categoryModel});
+  final CategoryModel categoryModel;
+}
+
+final class CategoriesUpdate extends CategoriesEvent {
+  const CategoriesUpdate({required this.categoryModel});
   final CategoryModel categoryModel;
 }

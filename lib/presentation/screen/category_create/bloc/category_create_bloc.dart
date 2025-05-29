@@ -12,13 +12,13 @@ part 'category_create_state.dart';
 class CategoryCreateBloc
     extends Bloc<CategoryCreateEvent, CategoryCreateState> {
   CategoryCreateBloc(this._categoryRepository) : super(CategoryCreateState()) {
-    on<CategoryCreateName>(_createTitle);
+    on<CategoryCreateName>(_createName);
     on<CategoryCreateIcon>(_createIcon);
     on<CategoryCreate>(_createCategory);
   }
   final CategoryRepository _categoryRepository;
 
-  Future<void> _createTitle(
+  Future<void> _createName(
     CategoryCreateName event,
     Emitter<CategoryCreateState> emit,
   ) async {

@@ -63,13 +63,16 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
 
   Widget _imageNetwork() {
     return Center(
-      child: ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(16),
-        child: Image.network(
-          height: 250,
-          width: 250,
-          widget.image!,
-          fit: BoxFit.fill,
+      child: InkWell(
+        onTap: _imageStorage,
+        child: ClipRRect(
+          borderRadius: BorderRadiusGeometry.circular(16),
+          child: Image.network(
+            height: 250,
+            width: 250,
+            widget.image!,
+            fit: BoxFit.fill,
+          ),
         ),
       ),
     );

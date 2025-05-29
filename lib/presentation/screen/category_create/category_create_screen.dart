@@ -16,7 +16,7 @@ class CategoryCreateScreen extends StatelessWidget {
     final categoryRepository = diStoriesData<CategoryRepository>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Создать категорию'),
+        title: Text('Create category'),
       ),
       body: BlocProvider(
         create: (context) => CategoryCreateBloc(categoryRepository),
@@ -97,18 +97,27 @@ class TextFieldNameCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
-      child: TextFormField(
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          hintText: 'Название категории',
-        ),
-        onChanged: (name) {
-          context.read<CategoryCreateBloc>().add(
-                CategoryCreateName(
-                  name: name,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Name',
+            // style: Theme.of(context).textTheme.headlineSmall,
+          ),
+          TextFormField(
+            keyboardType: TextInputType.text,
+            decoration: const InputDecoration(
+                // hintText: 'Название категории',
                 ),
-              );
-        },
+            onChanged: (name) {
+              context.read<CategoryCreateBloc>().add(
+                    CategoryCreateName(
+                      name: name,
+                    ),
+                  );
+            },
+          ),
+        ],
       ),
     );
   }

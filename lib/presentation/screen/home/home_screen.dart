@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
+import 'package:stories_admin/config/UI/app_assets.dart';
+import 'package:stories_admin/config/UI/app_colors.dart';
+import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/config/router/routers.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -8,36 +12,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: Colors.blue),
-              child: Text(
-                'Админка',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                ),
-              ),
-            ),
-            ListTile(
-              title: Text('Истории'),
-              onTap: () {
-                Navigator.pop(context);
-                // Навигация или логика
-              },
-            ),
-            ListTile(
-              title: Text('Категории'),
-              onTap: () {
-                context.pop();
-                context.pushNamed(Routers.pathCategoriesScreen);
-              },
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: Text('Админ панель'),
       ),
       body: HomeScreenBody(),
     );
@@ -49,6 +25,71 @@ class HomeScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Главный экран"));
+    return GridView(
+      padding: EdgeInsets.all(16),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 16,
+      ),
+      children: [
+        CategoryIconWidget(
+          name: 'Категории',
+          onTap: () => context.pushNamed(Routers.pathCategoriesScreen),
+        ),
+        CategoryIconWidget(
+          name: 'Сказки',
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+}
+
+class CategoryIconWidget extends StatelessWidget {
+  const CategoryIconWidget({
+    super.key,
+    required this.name,
+    required this.onTap,
+  });
+  final String name;
+  final void Function() onTap;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(16),
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.hexE7E7E7,
+          ),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+              spacing: 16,
+              children: [
+                Expanded(
+                  child: SvgPicture.asset(
+                    height: double.infinity,
+                    AppAssets.iconFolder,
+                    colorFilter: ColorFilter.mode(
+                      AppColors.hex5F3430,
+                      BlendMode.srcIn,
+                    ),
+                  ),
+                ),
+                Text(
+                  name,
+                  style: AppTextStyles.s18h000000n,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
