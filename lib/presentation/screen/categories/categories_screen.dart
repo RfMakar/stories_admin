@@ -88,6 +88,7 @@ class CategoriesScreenBody extends StatelessWidget {
               itemBuilder: (context, index) {
                 final category = categories[index];
                 return CategoryWidget(
+                  key: ValueKey(category.id),
                   category: category,
                 );
               },
@@ -106,7 +107,10 @@ class ButtonAddCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppButton(
-      title: 'Создать категорию',
+      child: Text(
+        'Создать категорию',
+        style: AppTextStyles.s16hFFFFFFn,
+      ),
       onTap: () => context.pushNamed(
         Routers.pathCategoryCreateScreen,
       ),
@@ -117,6 +121,7 @@ class ButtonAddCategory extends StatelessWidget {
 class CategoryWidget extends StatelessWidget {
   const CategoryWidget({super.key, required this.category});
   final CategoryModel category;
+
   @override
   Widget build(BuildContext context) {
     return Container(

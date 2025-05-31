@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stories_admin/aplication.dart';
+import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
 import 'package:stories_admin/presentation/screen/category_create/bloc/category_create_bloc.dart';
+import 'package:stories_admin/presentation/widgets/app_button.dart';
+import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_image_stotage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
@@ -60,10 +63,19 @@ class CategoryCreateScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: EdgeInsets.all(8),
       children: [
         SelectIconCategory(),
-        TextFieldNameCategory(),
+        AppTextField(
+          name: 'Name',
+          hintText: 'Имя категории',
+          onChanged: (name) {
+            context.read<CategoryCreateBloc>().add(
+                  CategoryCreateName(
+                    name: name,
+                  ),
+                );
+          },
+        ),
         ButtonCategoryCreate(),
       ],
     );
@@ -75,49 +87,19 @@ class SelectIconCategory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SelectImageStorageWidget(
-      image: null,
-      onPatchImage: (icon) {
-        if (icon != null) {
-          context.read<CategoryCreateBloc>().add(
-                CategoryCreateIcon(
-                  icon: icon,
-                ),
-              );
-        }
-      },
-    );
-  }
-}
-
-class TextFieldNameCategory extends StatelessWidget {
-  const TextFieldNameCategory({super.key});
-
-  @override
-  Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Name',
-            // style: Theme.of(context).textTheme.headlineSmall,
-          ),
-          TextFormField(
-            keyboardType: TextInputType.text,
-            decoration: const InputDecoration(
-                // hintText: 'Название категории',
-                ),
-            onChanged: (name) {
-              context.read<CategoryCreateBloc>().add(
-                    CategoryCreateName(
-                      name: name,
-                    ),
-                  );
-            },
-          ),
-        ],
+      padding: const EdgeInsets.all(16.0),
+      child: SelectImageStorageWidget(
+        image: null,
+        onPatchImage: (icon) {
+          if (icon != null) {
+            context.read<CategoryCreateBloc>().add(
+                  CategoryCreateIcon(
+                    icon: icon,
+                  ),
+                );
+          }
+        },
       ),
     );
   }
@@ -130,16 +112,29 @@ class ButtonCategoryCreate extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryCreateBloc, CategoryCreateState>(
       builder: (context, state) {
-        return TextButton(
-          onPressed: state.isSubmitting
+        return AppButton(
+          onTap: state.isSubmitting
               ? null
               : () => context.read<CategoryCreateBloc>().add(
                     CategoryCreate(),
                   ),
           child: state.isSubmitting
               ? CircularProgressIndicator()
-              : Text('Создать'),
+              : Text(
+                  'Создать',
+                  style: AppTextStyles.s16hFFFFFFn,
+                ),
         );
+        // return TextButton(
+        //   onPressed: state.isSubmitting
+        //       ? null
+        //       : () => context.read<CategoryCreateBloc>().add(
+        //             CategoryCreate(),
+        //           ),
+        //   child: state.isSubmitting
+        //       ? CircularProgressIndicator()
+        //       : Text('Создать'),
+        // );
       },
     );
   }

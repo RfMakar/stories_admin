@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:stories_admin/config/UI/app_colors.dart';
 import 'package:stories_admin/core/functions/di_stories_admin.dart';
 import 'package:stories_admin/data/services/permission_service.dart';
 import 'package:image_picker/image_picker.dart';
@@ -51,8 +52,8 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
           child: Image.file(
-            height: 250,
-            width: 250,
+            height: 150,
+            width: 150,
             newImage!,
             fit: BoxFit.fill,
           ),
@@ -68,8 +69,8 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
           child: Image.network(
-            height: 250,
-            width: 250,
+            height: 150,
+            width: 150,
             widget.image!,
             fit: BoxFit.fill,
           ),
@@ -84,13 +85,17 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
         borderRadius: BorderRadius.circular(16),
         onTap: _imageStorage,
         child: Container(
-          height: 250,
-          width: 250,
+          height: 150,
+          width: 150,
           decoration: BoxDecoration(
-            border: Border.all(),
+            border: Border.all(
+              color: AppColors.hexE7E7E7
+            ),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Center(child: Text('Добавить картинку')),
+          child: Center(
+            child: Text('Icon'),
+          ),
         ),
       ),
     );

@@ -2,7 +2,7 @@ part of 'categories_bloc.dart';
 
 enum CategoriesStatus { initial, success, failure }
 
-final class CategoriesState {
+final class CategoriesState extends Equatable{
   const CategoriesState({
     this.status = CategoriesStatus.initial,
     this.categories = const [],
@@ -23,4 +23,7 @@ final class CategoriesState {
       exception: exception ?? this.exception,
     );
   }
+  
+  @override
+  List<Object?> get props => [status, categories, exception];
 }

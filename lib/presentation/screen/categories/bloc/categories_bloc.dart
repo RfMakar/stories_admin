@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:stories_data/core/utils/logger.dart';
 import 'package:dio/dio.dart';
@@ -49,11 +50,15 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
       await _categoryRepository.deleteCategory(
         id: event.categoryId,
       );
-      state.categories.removeWhere((i) => i.id == event.categoryId);
+      final updatedCategories = state.categories
+          .where(
+            (category) => category.id != event.categoryId,
+          )
+          .toList();
 
       emit(state.copyWith(
         status: CategoriesStatus.success,
-        categories: List.of(state.categories),
+        categories: updatedCategories,
       ));
     } on DioException catch (exception) {
       emit(state.copyWith(
@@ -89,9 +94,9 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesAdd event,
     Emitter<CategoriesState> emit,
   ) async {
-    state.categories.insert(0, event.categoryModel);
+    final updatedCategories = [ ...state.categories,event.categoryModel,];
     emit(
-      state.copyWith(categories: List.of(state.categories)),
+      state.copyWith(categories: updatedCategories),
     );
   }
 
@@ -99,16 +104,17 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesUpdate event,
     Emitter<CategoriesState> emit,
   ) async {
-    final categoryIndex = state.categories.indexWhere(
-      (i) => i.id == event.categoryModel.id,
-    );
-
-    state.categories[categoryIndex] = event.categoryModel;
+    final updatedCategories = state.categories.map((category) {
+      if (category.id == event.categoryModel.id) {
+        return event.categoryModel; // заменяем на обновлённую категорию
+      }
+      return category; // оставляем без изменений
+    }).toList();
 
     emit(
       state.copyWith(
         // status: CategoriesStatus.success,
-        categories: List.of(state.categories),
+        categories: updatedCategories,
       ),
     );
   }

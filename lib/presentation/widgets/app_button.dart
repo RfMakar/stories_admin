@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
-import 'package:stories_admin/config/UI/app_text_style.dart';
 
 class AppButton extends StatelessWidget {
-  final String title;
-  final void Function() onTap;
+  final Widget child;
+  final void Function()? onTap;
 
   const AppButton({
     super.key,
-    required this.title,
+    required this.child,
     required this.onTap,
   });
 
@@ -31,10 +30,7 @@ class AppButton extends StatelessWidget {
           ),
         ),
         onPressed: onTap,
-        child: Text(
-          title,
-          style: AppTextStyles.s16hFFFFFFn,
-        ),
+        child: child,
       ),
     );
   }
