@@ -125,16 +125,6 @@ class ButtonCategoryCreate extends StatelessWidget {
                   style: AppTextStyles.s16hFFFFFFn,
                 ),
         );
-        // return TextButton(
-        //   onPressed: state.isSubmitting
-        //       ? null
-        //       : () => context.read<CategoryCreateBloc>().add(
-        //             CategoryCreate(),
-        //           ),
-        //   child: state.isSubmitting
-        //       ? CircularProgressIndicator()
-        //       : Text('Создать'),
-        // );
       },
     );
   }

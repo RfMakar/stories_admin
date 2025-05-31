@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AppTextField extends StatelessWidget {
-  const AppTextField(
-      {super.key, required this.name, required this.hintText, this.onChanged});
+  const AppTextField({
+    super.key,
+    required this.name,
+    required this.hintText,
+    this.initialValue,
+    this.onChanged,
+  });
   final String name;
   final String hintText;
+  final String? initialValue;
   final void Function(String)? onChanged;
 
   @override
@@ -17,6 +23,7 @@ class AppTextField extends StatelessWidget {
         children: [
           Text(name),
           TextFormField(
+            initialValue: initialValue,
             keyboardType: TextInputType.text,
             decoration: InputDecoration(
               hintText: hintText,

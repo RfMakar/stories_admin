@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stories_admin/aplication.dart';
+import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
 import 'package:stories_admin/presentation/screen/category_update/bloc/category_update_bloc.dart';
+import 'package:stories_admin/presentation/widgets/app_button.dart';
+import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_image_stotage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
@@ -83,11 +86,19 @@ class CategoryUpdateScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bloc = context.read<CategoryUpdateBloc>();
     return ListView(
       padding: EdgeInsets.all(8),
       children: [
         SelectIconCategory(),
-        TextFieldNameCategory(),
+        AppTextField(
+          initialValue: bloc.state.categoryModel?.name,
+          name: 'Name',
+          hintText: 'Имя категории',
+          onChanged: (name) {
+            bloc.add(CategoryUpdateName(name: name));
+          },
+        ),
         ButtonCategoryUpdate(),
       ],
     );
@@ -100,33 +111,14 @@ class SelectIconCategory extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<CategoryUpdateBloc>();
-    return SelectImageStorageWidget(
-      image: bloc.state.categoryModel?.iconUrl,
-      onPatchImage: (icon) {
-        if (icon != null) {
-          bloc.add(CategoryUpdateIcon(icon: icon));
-        }
-      },
-    );
-  }
-}
-
-class TextFieldNameCategory extends StatelessWidget {
-  const TextFieldNameCategory({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<CategoryUpdateBloc>();
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: TextFormField(
-        initialValue: bloc.state.categoryModel?.name,
-        keyboardType: TextInputType.text,
-        decoration: const InputDecoration(
-          hintText: 'Название категории',
-        ),
-        onChanged: (name) {
-          bloc.add(CategoryUpdateName(name: name));
+      padding: const EdgeInsets.all(16.0),
+      child: SelectImageStorageWidget(
+        image: bloc.state.categoryModel?.iconUrl,
+        onPatchImage: (icon) {
+          if (icon != null) {
+            bloc.add(CategoryUpdateIcon(icon: icon));
+          }
         },
       ),
     );
@@ -140,15 +132,18 @@ class ButtonCategoryUpdate extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CategoryUpdateBloc, CategoryUpdateState>(
       builder: (context, state) {
-        return TextButton(
-          onPressed: state.isSubmitting
+        return AppButton(
+          onTap: state.isSubmitting
               ? null
               : () => context.read<CategoryUpdateBloc>().add(
                     CategoryUpdate(),
                   ),
           child: state.isSubmitting
               ? CircularProgressIndicator()
-              : Text('Обновить'),
+              : Text(
+                  'Обновить',
+                  style: AppTextStyles.s16hFFFFFFn,
+                ),
         );
       },
     );
