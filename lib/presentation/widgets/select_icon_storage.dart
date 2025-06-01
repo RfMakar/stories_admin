@@ -7,54 +7,54 @@ import 'package:stories_admin/core/functions/di_stories_admin.dart';
 import 'package:stories_admin/data/services/permission_service.dart';
 import 'package:image_picker/image_picker.dart';
 
-class SelectImageStorageWidget extends StatefulWidget {
-  const SelectImageStorageWidget({
+class SelectIconStorageWidget extends StatefulWidget {
+  const SelectIconStorageWidget({
     super.key,
-    this.image,
-    required this.onPatchImage,
+    this.icon,
+    required this.onPatchIcon,
   });
-  final String? image;
-  final ValueChanged<File?> onPatchImage;
+  final String? icon;
+  final ValueChanged<File?> onPatchIcon;
 
   @override
-  State<SelectImageStorageWidget> createState() =>
-      _SelectImageStorageWidgetState();
+  State<SelectIconStorageWidget> createState() =>
+      _SelectIconStorageWidgetState();
 }
 
-class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
+class _SelectIconStorageWidgetState extends State<SelectIconStorageWidget> {
   final permissionService = diStoriesAdmin<PermissionService>();
-  File? image;
-  File? newImage;
+  File? icon;
+  File? newIcon;
 
   @override
   void initState() {
-    if (widget.image != null) {
-      image = File(widget.image!);
+    if (widget.icon != null) {
+      icon = File(widget.icon!);
     }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (newImage != null) {
-      return _imageFile();
-    } else if (image != null) {
-      return _imageNetwork();
+    if (newIcon != null) {
+      return _iconFile();
+    } else if (icon != null) {
+      return _iconNetwork();
     } else {
-      return _imageButton();
+      return _iconButton();
     }
   }
 
-  Widget _imageFile() {
+  Widget _iconFile() {
     return Center(
       child: InkWell(
-        onTap: _imageStorage,
+        onTap: _iconStorage,
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
           child: Image.file(
             height: 150,
             width: 150,
-            newImage!,
+            newIcon!,
             fit: BoxFit.fill,
           ),
         ),
@@ -62,16 +62,16 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
     );
   }
 
-  Widget _imageNetwork() {
+  Widget _iconNetwork() {
     return Center(
       child: InkWell(
-        onTap: _imageStorage,
+        onTap: _iconStorage,
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
           child: Image.network(
             height: 150,
             width: 150,
-            widget.image!,
+            widget.icon!,
             fit: BoxFit.fill,
           ),
         ),
@@ -79,11 +79,11 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
     );
   }
 
-  Widget _imageButton() {
+  Widget _iconButton() {
     return Center(
       child: InkWell(
         borderRadius: BorderRadius.circular(16),
-        onTap: _imageStorage,
+        onTap: _iconStorage,
         child: Container(
           height: 150,
           width: 150,
@@ -101,7 +101,7 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
     );
   }
 
-  Future<void> _imageStorage() async {
+  Future<void> _iconStorage() async {
     final isRes = await permissionService.requestPhotoOrStorage();
     if (isRes) {
       final pickedFile = await ImagePicker().pickImage(
@@ -110,8 +110,8 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
       if (pickedFile != null) {
         setState(() {
           final file = File(pickedFile.path);
-          newImage = file;
-          widget.onPatchImage(file);
+          newIcon = file;
+          widget.onPatchIcon(file);
         });
       }
     } else {

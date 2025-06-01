@@ -7,7 +7,7 @@ import 'package:stories_admin/presentation/screen/categories/bloc/categories_blo
 import 'package:stories_admin/presentation/screen/category_create/bloc/category_create_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
-import 'package:stories_admin/presentation/widgets/select_image_stotage.dart';
+import 'package:stories_admin/presentation/widgets/select_icon_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
 
@@ -19,7 +19,7 @@ class CategoryCreateScreen extends StatelessWidget {
     final categoryRepository = diStoriesData<CategoryRepository>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create category'),
+        title: Text('Создать категорию'),
       ),
       body: BlocProvider(
         create: (context) => CategoryCreateBloc(categoryRepository),
@@ -89,9 +89,9 @@ class SelectIconCategory extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: SelectImageStorageWidget(
-        image: null,
-        onPatchImage: (icon) {
+      child: SelectIconStorageWidget(
+        icon: null,
+        onPatchIcon: (icon) {
           if (icon != null) {
             context.read<CategoryCreateBloc>().add(
                   CategoryCreateIcon(

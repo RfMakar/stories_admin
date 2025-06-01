@@ -7,7 +7,7 @@ import 'package:stories_admin/presentation/screen/categories/bloc/categories_blo
 import 'package:stories_admin/presentation/screen/category_update/bloc/category_update_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
-import 'package:stories_admin/presentation/widgets/select_image_stotage.dart';
+import 'package:stories_admin/presentation/widgets/select_icon_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
 
@@ -113,9 +113,9 @@ class SelectIconCategory extends StatelessWidget {
     final bloc = context.read<CategoryUpdateBloc>();
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: SelectImageStorageWidget(
-        image: bloc.state.categoryModel?.iconUrl,
-        onPatchImage: (icon) {
+      child: SelectIconStorageWidget(
+        icon: bloc.state.categoryModel?.iconUrl,
+        onPatchIcon: (icon) {
           if (icon != null) {
             bloc.add(CategoryUpdateIcon(icon: icon));
           }

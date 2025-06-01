@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stories_admin/aplication.dart';
 import 'package:stories_admin/config/UI/app_assets.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
+import 'package:stories_admin/config/router/routers.dart';
 import 'package:stories_admin/presentation/screen/stories/bloc/stories_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_data/stories_data.dart';
@@ -115,10 +117,9 @@ class ButtonAddStory extends StatelessWidget {
         'Создать сказку',
         style: AppTextStyles.s16hFFFFFFn,
       ),
-      onTap: null,
-      // onTap: () => context.pushNamed(
-      //   Routers.pathCategoryCreateScreen,
-      // ),
+      onTap: () => context.pushNamed(
+        Routers.pathStoryCreateScreen,
+      ),
     );
   }
 }
