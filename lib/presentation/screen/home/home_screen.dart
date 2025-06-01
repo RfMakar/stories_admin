@@ -38,7 +38,7 @@ class HomeScreenBody extends StatelessWidget {
         ),
         CategoryIconWidget(
           name: 'Сказки',
-          onTap: () {},
+          onTap: () => context.pushNamed(Routers.pathStoriesScreen),
         ),
       ],
     );

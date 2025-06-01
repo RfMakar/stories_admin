@@ -84,6 +84,7 @@ class CategoriesScreenBody extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             ListView.builder(
+              padding: EdgeInsets.only(bottom: 80),
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
@@ -159,7 +160,7 @@ class CategoryWidget extends StatelessWidget {
                 ),
                 Text(
                   category.id,
-                  style: AppTextStyles.s12h000000n,
+                  style: AppTextStyles.s12hE7E7E7n,
                 ),
                 Row(
                   children: [
@@ -196,42 +197,3 @@ class CategoryWidget extends StatelessWidget {
     );
   }
 }
-
-
-/*
-ListTile(
-      // onTap: () {},
-      leading: ClipRRect(
-        borderRadius: BorderRadiusGeometry.circular(16),
-        child: Image.network(
-          height: 50,
-          width: 50,
-          category.iconUrl,
-          fit: BoxFit.fill,
-        ),
-      ),
-      title: Text(category.name),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconButton(
-            onPressed: () {
-              context.pushNamed(
-                Routers.pathCategoryUpdateScreen,
-                extra: category.id,
-              );
-            },
-            icon: Icon(Icons.create),
-          ),
-          IconButton(
-            onPressed: () {
-              context.read<CategoriesBloc>().add(CategoriesDelete(
-                    categoryId: category.id,
-                  ));
-            },
-            icon: Icon(Icons.delete),
-          ),
-        ],
-      ),
-    );
-*/

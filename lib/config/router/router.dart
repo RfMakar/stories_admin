@@ -4,6 +4,7 @@ import 'package:stories_admin/presentation/screen/categories/categories_screen.d
 import 'package:stories_admin/presentation/screen/category_create/category_create_screen.dart';
 import 'package:stories_admin/presentation/screen/category_update/category_update_screen.dart';
 import 'package:stories_admin/presentation/screen/home/home_screen.dart';
+import 'package:stories_admin/presentation/screen/stories/stories_screen.dart';
 
 final router = GoRouter(
   initialLocation: Routers.pathHomeScreen,
@@ -33,6 +34,11 @@ final router = GoRouter(
               );
             }),
       ],
+    ),
+    GoRoute(
+      path: Routers.pathStoriesScreen,
+      name: Routers.pathStoriesScreen,
+      builder: (context, state) => const StoriesScreen(),
     ),
   ],
 );

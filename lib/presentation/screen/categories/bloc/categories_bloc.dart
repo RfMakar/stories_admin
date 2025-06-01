@@ -94,7 +94,10 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     CategoriesAdd event,
     Emitter<CategoriesState> emit,
   ) async {
-    final updatedCategories = [ ...state.categories,event.categoryModel,];
+    final updatedCategories = [
+      ...state.categories,
+      event.categoryModel,
+    ];
     emit(
       state.copyWith(categories: updatedCategories),
     );
