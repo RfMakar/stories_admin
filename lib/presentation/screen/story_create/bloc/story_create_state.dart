@@ -9,6 +9,8 @@ final class StoryCreateState {
     this.description,
     this.content,
     this.image,
+    this.categories = const [],
+    this.selectCategoriesId = const [],
     this.storyModel,
     this.isSubmitting = false,
     this.isValidateData = false,
@@ -19,7 +21,8 @@ final class StoryCreateState {
   final String? description;
   final String? content;
   final File? image;
-
+  final List<CategoryModel> categories;
+  final List<String> selectCategoriesId;
   final StoryModel? storyModel;
   final bool isSubmitting;
   final bool isValidateData;
@@ -31,6 +34,8 @@ final class StoryCreateState {
     String? description,
     String? content,
     File? image,
+    List<CategoryModel>? categories,
+    List<String>? selectCategoriesId,
     StoryModel? storyModel,
     bool? isSubmitting,
     bool? isValidateData,
@@ -42,6 +47,8 @@ final class StoryCreateState {
       description: description ?? this.description,
       content: content ?? this.content,
       image: image ?? this.image,
+      categories: categories ?? this.categories,
+      selectCategoriesId: selectCategoriesId ?? this.selectCategoriesId,
       storyModel: storyModel ?? this.storyModel,
       isSubmitting: isSubmitting ?? this.isSubmitting,
       isValidateData: isValidateData ?? this.isValidateData,

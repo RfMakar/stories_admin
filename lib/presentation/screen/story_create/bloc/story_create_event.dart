@@ -5,6 +5,10 @@ sealed class StoryCreateEvent {
   const StoryCreateEvent();
 }
 
+final class StoryCreateInitial extends StoryCreateEvent {
+  const StoryCreateInitial();
+}
+
 final class StoryCreateTitle extends StoryCreateEvent {
   const StoryCreateTitle({required this.title});
   final String title;
@@ -23,6 +27,15 @@ final class StoryCreateContent extends StoryCreateEvent {
 final class StoryCreateImage extends StoryCreateEvent {
   const StoryCreateImage({required this.image});
   final File image;
+}
+
+final class StoryCreateAddCategory extends StoryCreateEvent {
+  const StoryCreateAddCategory({required this.categoryId});
+  final String categoryId;
+}
+final class StoryCreateRemoveCategory extends StoryCreateEvent {
+  const StoryCreateRemoveCategory({required this.categoryId});
+  final String categoryId;
 }
 
 final class StoryCreate extends StoryCreateEvent {
