@@ -7,4 +7,5 @@ final class Routers {
   //stories
   static const pathStoriesScreen = '/stories';
   static const pathStoryCreateScreen = '/story_create';
+  static const pathStoryUpdateScreen = '/story_update';
 }

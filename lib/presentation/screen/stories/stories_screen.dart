@@ -203,10 +203,10 @@ class StoryWidget extends StatelessWidget {
                 children: [
                   IconButton(
                     onPressed: () {
-                      // context.pushNamed(
-                      //   Routers.pathCategoryUpdateScreen,
-                      //   extra: category.id,
-                      // );
+                      context.pushNamed(
+                        Routers.pathStoryUpdateScreen,
+                        extra: story.id,
+                      );
                     },
                     icon: SvgPicture.asset(
                       AppAssets.iconEdit,
