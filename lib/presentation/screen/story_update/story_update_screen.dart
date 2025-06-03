@@ -6,9 +6,13 @@ import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/presentation/screen/stories/bloc/stories_bloc.dart';
 import 'package:stories_admin/presentation/screen/story_update/bloc/story_update_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
+import 'package:stories_admin/presentation/widgets/app_list_tile.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_image_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
+import 'package:stories_data/models/category_model.dart';
+import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/repositories/story_categories_repository.dart';
 import 'package:stories_data/repositories/story_repository.dart';
 
 class StoryUpdateScreen extends StatelessWidget {
@@ -17,13 +21,19 @@ class StoryUpdateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final storyRepository = diStoriesData<StoryRepository>();
+    final categoryRepository = diStoriesData<CategoryRepository>();
+    final storyCategoriesRepository =
+        diStoriesData<StoryCategoriesRepository>();
     return Scaffold(
       appBar: AppBar(
         title: Text('Обновить сказку'),
       ),
       body: BlocProvider(
-        create: (context) => StoryUpdateBloc(storyRepository)
-          ..add(
+        create: (context) => StoryUpdateBloc(
+          storyRepository,
+          categoryRepository,
+          storyCategoriesRepository,
+        )..add(
             StoryUpdateInitial(
               storyId: storyId,
             ),
@@ -124,6 +134,7 @@ class StoryUpdateScreenBody extends StatelessWidget {
             ));
           },
         ),
+        CategoriesList(),
         ButtonStoryCreate(),
       ],
     );
@@ -148,6 +159,67 @@ class SelectImageStory extends StatelessWidget {
           }
         },
       ),
+    );
+  }
+}
+
+class CategoriesList extends StatelessWidget {
+  const CategoriesList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        spacing: 8,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Categories'),
+          BlocSelector<StoryUpdateBloc, StoryUpdateState, List<CategoryModel>>(
+            selector: (state) {
+              return state.categories;
+            },
+            builder: (context, categories) {
+              if (categories.isEmpty) {
+                return Center(
+                  child: Text('Категорий нет'),
+                );
+              }
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return CategorySelectToStory(
+                    category: category,
+                  );
+                },
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class CategorySelectToStory extends StatelessWidget {
+  const CategorySelectToStory({super.key, required this.category});
+  final CategoryModel category;
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<StoryUpdateBloc>();
+    return AppListTile(
+      title: category.name,
+      isValue: bloc.state.selectedCategoriesIds.contains(category.id),
+      onChanged: (isSelect) {
+        context.read<StoryUpdateBloc>().add(
+              StoryUpdateCategoryToggle(
+                categoryId: category.id,
+              ),
+            );
+      },
     );
   }
 }

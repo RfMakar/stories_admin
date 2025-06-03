@@ -3,35 +3,57 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:stories_data/core/utils/logger.dart';
+import 'package:stories_data/models/category_model.dart';
 import 'package:stories_data/models/story_model.dart';
+import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/repositories/story_categories_repository.dart';
 import 'package:stories_data/repositories/story_repository.dart';
 
 part 'story_update_event.dart';
 part 'story_update_state.dart';
 
 class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
-  StoryUpdateBloc(this._storyRepository) : super(StoryUpdateState()) {
+  StoryUpdateBloc(
+    this._storyRepository,
+    this._categoryRepository,
+    this._storyCategoriesRepository,
+  ) : super(StoryUpdateState()) {
     on<StoryUpdateInitial>(_initial);
     on<StoryUpdateTitle>(_updateTitle);
     on<StoryUpdateDescription>(_updateDescription);
     on<StoryUpdateContent>(_updateContent);
     on<StoryUpdateImage>(_updateImage);
+    on<StoryUpdateCategoryToggle>(_updateCategoryToggle);
     on<StoryUpdate>(_update);
   }
 
   final StoryRepository _storyRepository;
+  final CategoryRepository _categoryRepository;
+  final StoryCategoriesRepository _storyCategoriesRepository;
 
   Future<void> _initial(
     StoryUpdateInitial event,
     Emitter<StoryUpdateState> emit,
   ) async {
     try {
-      final data = await _storyRepository.getStory(
+      //загрузка сказки
+      final storyData = await _storyRepository.getStory(
         id: event.storyId,
       );
+      //Загрузка всех категорий
+      final categoriesData = await _categoryRepository.getCategories();
+      //Выбранные категории сказки to set
+      final selectedCategoriesIds = storyData.categories
+          .map(
+            (c) => c.id,
+          )
+          .toSet();
+      //Обновление данных
       emit(state.copyWith(
         status: StoryUpdateStatus.success,
-        storyModel: data,
+        storyModel: storyData,
+        categories: categoriesData,
+        selectedCategoriesIds: selectedCategoriesIds,
       ));
     } on DioException catch (exception) {
       emit(state.copyWith(
@@ -83,14 +105,47 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     emit(state.copyWith(image: event.image));
   }
 
+  Future<void> _updateCategoryToggle(
+    StoryUpdateCategoryToggle event,
+    Emitter<StoryUpdateState> emit,
+  ) async {
+    final updateSelectedCategoriesIds = Set<String>.from(
+      state.selectedCategoriesIds,
+    );
+
+    if (updateSelectedCategoriesIds.contains(event.categoryId)) {
+      updateSelectedCategoriesIds.remove(event.categoryId);
+    } else {
+      updateSelectedCategoriesIds.add(event.categoryId);
+    }
+
+    emit(state.copyWith(
+      selectedCategoriesIds: updateSelectedCategoriesIds,
+    ));
+  }
+
   Future<void> _update(
     StoryUpdate event,
     Emitter<StoryUpdateState> emit,
   ) async {
+    //Текущие категории сказки
+    final categoriesIds = state.storyModel?.categories
+            .map(
+              (c) => c.id,
+            )
+            .toSet() ??
+        {};
+    //Для добавления
+    final toAdd = state.selectedCategoriesIds.difference(categoriesIds);
+    //Для удаления
+    final toRemove = categoriesIds.difference(state.selectedCategoriesIds);
+
     if (state.image == null &&
         state.title == null &&
         state.description == null &&
-        state.content == null) {
+        state.content == null &&
+        toAdd.isEmpty &&
+        toRemove.isEmpty) {
       emit(state.copyWith(isValidateData: true));
       //сброс валидации
       emit(state.copyWith(isValidateData: false));
@@ -100,16 +155,35 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     emit(state.copyWith(isSubmitting: true));
 
     try {
-      final data = await _storyRepository.updateStory(
+      //Обновление сказки без категорий
+      final updateStoryData = await _storyRepository.updateStory(
         id: state.storyModel!.id,
         title: state.title,
         description: state.description,
         content: state.content,
         image: state.image,
       );
+      //Добавление категорий
+      for (var categoryId in toAdd) {
+        await _storyCategoriesRepository.createCategoryToStory(
+          storyId: updateStoryData.id,
+          categoryId: categoryId,
+        );
+      }
+      //Удаление категорий
+      for (var categoryId in toRemove) {
+        await _storyCategoriesRepository.deleteCategoryToStory(
+          storyId: updateStoryData.id,
+          categoryId: categoryId,
+        );
+      }
+      //Загрузка новой сказки со всеми категориями
+      final story = await _storyRepository.getStory(
+        id: updateStoryData.id,
+      );
       emit(state.copyWith(
         status: StoryUpdateStatus.update,
-        updateStoryModel: data,
+        updateStoryModel: story,
       ));
     } on DioException catch (exception) {
       //Чтобы показовалось один раз ошибка
