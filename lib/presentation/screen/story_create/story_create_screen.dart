@@ -191,19 +191,11 @@ class CategorySelectToStory extends StatelessWidget {
       title: category.name,
       isValue: false,
       onChanged: (isSelect) {
-        if (isSelect) {
-          context.read<StoryCreateBloc>().add(
-                StoryCreateAddCategory(
-                  categoryId: category.id,
-                ),
-              );
-        } else if (!isSelect) {
-          context.read<StoryCreateBloc>().add(
-                StoryCreateRemoveCategory(
-                  categoryId: category.id,
-                ),
-              );
-        }
+        context.read<StoryCreateBloc>().add(
+              StoryCreateCategoryToggle(
+                categoryId: category.id,
+              ),
+            );
       },
     );
   }

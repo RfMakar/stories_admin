@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:stories_data/core/utils/logger.dart';
 import 'package:stories_data/models/index.dart';
-import 'package:stories_data/models/story_model.dart';
 import 'package:stories_data/repositories/index.dart';
 
 part 'story_create_event.dart';
@@ -22,8 +21,7 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
     on<StoryCreateTitle>(_createTitle);
     on<StoryCreateDescription>(_createDescription);
     on<StoryCreateContent>(_createContent);
-    on<StoryCreateAddCategory>(_addCategory);
-    on<StoryCreateRemoveCategory>(_removeCategory);
+    on<StoryCreateCategoryToggle>(_createCategoryToggle);
     on<StoryCreate>(_createStory);
   }
   final StoryRepository _storyRepository;
@@ -89,30 +87,22 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
     }
   }
 
-  Future<void> _addCategory(
-    StoryCreateAddCategory event,
+  Future<void> _createCategoryToggle(
+    StoryCreateCategoryToggle event,
     Emitter<StoryCreateState> emit,
   ) async {
-    final updatedSelectCategories = [
-      ...state.selectCategoriesId,
-      event.categoryId,
-    ];
-    emit(state.copyWith(
-      selectCategoriesId: updatedSelectCategories,
-    ));
-  }
+    final updateSelectedCategoriesIds = Set<String>.from(
+      state.selectCategoriesId,
+    );
 
-  Future<void> _removeCategory(
-    StoryCreateRemoveCategory event,
-    Emitter<StoryCreateState> emit,
-  ) async {
-    final updatedSelectCategories = state.selectCategoriesId
-        .where(
-          (categoryId) => categoryId != event.categoryId,
-        )
-        .toList();
+    if (updateSelectedCategoriesIds.contains(event.categoryId)) {
+      updateSelectedCategoriesIds.remove(event.categoryId);
+    } else {
+      updateSelectedCategoriesIds.add(event.categoryId);
+    }
+
     emit(state.copyWith(
-      selectCategoriesId: updatedSelectCategories,
+      selectCategoriesId: updateSelectedCategoriesIds,
     ));
   }
 

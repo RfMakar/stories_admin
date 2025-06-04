@@ -29,12 +29,9 @@ final class StoryCreateImage extends StoryCreateEvent {
   final File image;
 }
 
-final class StoryCreateAddCategory extends StoryCreateEvent {
-  const StoryCreateAddCategory({required this.categoryId});
-  final String categoryId;
-}
-final class StoryCreateRemoveCategory extends StoryCreateEvent {
-  const StoryCreateRemoveCategory({required this.categoryId});
+
+final class StoryCreateCategoryToggle extends StoryCreateEvent {
+  const StoryCreateCategoryToggle({required this.categoryId});
   final String categoryId;
 }
 

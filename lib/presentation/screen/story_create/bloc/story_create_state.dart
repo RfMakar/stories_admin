@@ -10,7 +10,7 @@ final class StoryCreateState {
     this.content,
     this.image,
     this.categories = const [],
-    this.selectCategoriesId = const [],
+    this.selectCategoriesId = const {},
     this.storyModel,
     this.isSubmitting = false,
     this.isValidateData = false,
@@ -22,7 +22,7 @@ final class StoryCreateState {
   final String? content;
   final File? image;
   final List<CategoryModel> categories;
-  final List<String> selectCategoriesId;
+  final Set<String> selectCategoriesId;
   final StoryModel? storyModel;
   final bool isSubmitting;
   final bool isValidateData;
@@ -35,7 +35,7 @@ final class StoryCreateState {
     String? content,
     File? image,
     List<CategoryModel>? categories,
-    List<String>? selectCategoriesId,
+    Set<String>? selectCategoriesId,
     StoryModel? storyModel,
     bool? isSubmitting,
     bool? isValidateData,

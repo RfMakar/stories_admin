@@ -139,13 +139,15 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     final toAdd = state.selectedCategoriesIds.difference(categoriesIds);
     //Для удаления
     final toRemove = categoriesIds.difference(state.selectedCategoriesIds);
-
-    if (state.image == null &&
+    //Валидация
+    final isValidate = state.image == null &&
         state.title == null &&
         state.description == null &&
         state.content == null &&
         toAdd.isEmpty &&
-        toRemove.isEmpty) {
+        toRemove.isEmpty;
+
+    if (isValidate) {
       emit(state.copyWith(isValidateData: true));
       //сброс валидации
       emit(state.copyWith(isValidateData: false));
@@ -181,6 +183,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
       final story = await _storyRepository.getStory(
         id: updateStoryData.id,
       );
+      //Обновление состояния
       emit(state.copyWith(
         status: StoryUpdateStatus.update,
         updateStoryModel: story,
