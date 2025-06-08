@@ -1,4 +1,4 @@
-package com.example.stories_admin
+package ru.stories_admin
 
 import io.flutter.embedding.android.FlutterActivity
 
