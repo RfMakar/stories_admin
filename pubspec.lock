@@ -385,10 +385,10 @@ packages:
     dependency: transitive
     description:
       name: logger
-      sha256: be4b23575aac7ebf01f225a241eb7f6b5641eeaf43c6a8613510fc2f8cf187d1
+      sha256: "2621da01aabaf223f8f961e751f2c943dbb374dc3559b982f200ccedadaa6999"
       url: "https://pub.dev"
     source: hosted
-    version: "2.5.0"
+    version: "2.6.0"
   logging:
     dependency: transitive
     description:
@@ -613,9 +613,11 @@ packages:
   stories_data:
     dependency: "direct main"
     description:
-      path: "../stories_data"
-      relative: true
-    source: path
+      path: "."
+      ref: HEAD
+      resolved-ref: c07c04838a4480434dd474d27af6a951ed5910b9
+      url: "https://github.com/RfMakar/stories_data.git"
+    source: git
     version: "1.0.0"
   stream_channel:
     dependency: transitive

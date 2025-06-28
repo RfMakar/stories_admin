@@ -12,7 +12,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   stories_data:
-    path: ../stories_data
+    git:
+      url: https://github.com/RfMakar/stories_data.git
   path_provider: ^2.1.5
   flutter_dotenv: ^5.2.1
   flutter_localizations:

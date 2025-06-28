@@ -7,6 +7,7 @@ import 'package:stories_admin/config/UI/app_assets.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/config/router/routers.dart';
+import 'package:stories_admin/presentation/bottom_sheet/sheet_delete.dart';
 import 'package:stories_admin/presentation/screen/stories/bloc/stories_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_data/stories_data.dart';
@@ -19,19 +20,19 @@ class StoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Сказки'),
-        actions: [
-          IconButton(
-            // onPressed: null,
-            onPressed: () => context.read<StoriesBloc>().add(
-                  StoriesDeleteAll(),
-                ),
-            icon: SvgPicture.asset(AppAssets.iconDelete),
-          ),
-          IconButton(
-            onPressed: null,
-            icon: SvgPicture.asset(AppAssets.iconSearch),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     // onPressed: null,
+        //     onPressed: () => context.read<StoriesBloc>().add(
+        //           StoriesDeleteAll(),
+        //         ),
+        //     icon: SvgPicture.asset(AppAssets.iconDelete),
+        //   ),
+        //   IconButton(
+        //     onPressed: null,
+        //     icon: SvgPicture.asset(AppAssets.iconSearch),
+        //   ),
+        // ],
       ),
       body: BlocConsumer<StoriesBloc, StoriesState>(
         listener: (context, state) {
@@ -213,12 +214,21 @@ class StoryWidget extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {
-                      context.read<StoriesBloc>().add(
-                            StoriesDelete(
-                              storyId: story.id,
-                            ),
-                          );
+                    onPressed: () async {
+                      deleteAction() {
+                        context.read<StoriesBloc>().add(
+                              StoriesDelete(
+                                storyId: story.id,
+                              ),
+                            );
+                      }
+
+                      final isResult =
+                          await showDeleteBottomSheet(context: context);
+
+                      if (isResult == true) {
+                        deleteAction();
+                      }
                     },
                     icon: SvgPicture.asset(
                       AppAssets.iconDelete,
@@ -243,8 +253,9 @@ class CategoryCardStory extends StatelessWidget {
       margin: EdgeInsets.only(right: 8),
       padding: EdgeInsets.symmetric(horizontal: 8),
       decoration: BoxDecoration(
-          border: Border.all(color: AppColors.hexE7E7E7),
-          borderRadius: BorderRadius.circular(8)),
+        border: Border.all(color: AppColors.hexE7E7E7),
+        borderRadius: BorderRadius.circular(8),
+      ),
       child: Text(
         category.name,
       ),

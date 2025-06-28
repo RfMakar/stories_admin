@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Разрешение на доступ к интернету -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Разрешения на доступ к фото -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <application
         android:label="stories_admin"
         android:name="${applicationName}"

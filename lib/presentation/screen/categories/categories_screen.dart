@@ -7,6 +7,7 @@ import 'package:stories_admin/config/UI/app_assets.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/config/router/routers.dart';
+import 'package:stories_admin/presentation/bottom_sheet/sheet_delete.dart';
 import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_data/models/category_model.dart';
@@ -19,19 +20,19 @@ class CategoriesScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Категории'),
-        actions: [
-          IconButton(
-            // onPressed: null,
-            onPressed: () => context.read<CategoriesBloc>().add(
-                  CategoriesDeleteAll(),
-                ),
-            icon: SvgPicture.asset(AppAssets.iconDelete),
-          ),
-          IconButton(
-            onPressed: null,
-            icon: SvgPicture.asset(AppAssets.iconSearch),
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     // onPressed: null,
+        //     onPressed: () => context.read<CategoriesBloc>().add(
+        //           CategoriesDeleteAll(),
+        //         ),
+        //     icon: SvgPicture.asset(AppAssets.iconDelete),
+        //   ),
+        //   IconButton(
+        //     onPressed: null,
+        //     icon: SvgPicture.asset(AppAssets.iconSearch),
+        //   ),
+        // ],
       ),
       body: BlocConsumer<CategoriesBloc, CategoriesState>(
         listener: (context, state) {
@@ -176,12 +177,18 @@ class CategoryWidget extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {
-                        context.read<CategoriesBloc>().add(
-                              CategoriesDelete(
-                                categoryId: category.id,
-                              ),
-                            );
+                      onPressed: () async {
+                        deleteAction() {
+                          context.read<CategoriesBloc>().add(
+                                CategoriesDelete(categoryId: category.id),
+                              );
+                        }
+                        final isResult =
+                            await showDeleteBottomSheet(context: context);
+
+                        if (isResult == true) {
+                          deleteAction();
+                        }
                       },
                       icon: SvgPicture.asset(
                         AppAssets.iconDelete,
