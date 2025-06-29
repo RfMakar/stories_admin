@@ -5,6 +5,7 @@ import 'package:stories_admin/presentation/widgets/app_button.dart';
 
 Future<bool?> showDeleteBottomSheet({required BuildContext context}) {
   return showModalBottomSheet(
+    showDragHandle: true,
     context: context,
     builder: (context) => Padding(
       padding: const EdgeInsets.all(8.0),

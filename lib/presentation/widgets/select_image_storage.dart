@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
@@ -51,11 +52,12 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
         onTap: _imageStorage,
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
-          child: Image.file(
-            height: 180,
-            width: double.infinity,
-            newImage!,
-            fit: BoxFit.fitWidth,
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Image.file(
+              newImage!,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
@@ -68,11 +70,12 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
         onTap: _imageStorage,
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
-          child: Image.network(
-            height: 180,
-            width: double.infinity,
-            widget.image!,
-            fit: BoxFit.fitWidth,
+          child: AspectRatio(
+            aspectRatio: 16 / 9,
+            child: CachedNetworkImage(
+              imageUrl: widget.image!,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),
@@ -88,9 +91,7 @@ class _SelectImageStorageWidgetState extends State<SelectImageStorageWidget> {
           height: 180,
           width: double.infinity,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.hexE7E7E7
-            ),
+            border: Border.all(color: AppColors.hexE7E7E7),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(

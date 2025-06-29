@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
@@ -68,10 +69,10 @@ class _SelectIconStorageWidgetState extends State<SelectIconStorageWidget> {
         onTap: _iconStorage,
         child: ClipRRect(
           borderRadius: BorderRadiusGeometry.circular(16),
-          child: Image.network(
+          child: CachedNetworkImage(
             height: 150,
             width: 150,
-            widget.icon!,
+            imageUrl: widget.icon!,
             fit: BoxFit.fill,
           ),
         ),
@@ -88,9 +89,7 @@ class _SelectIconStorageWidgetState extends State<SelectIconStorageWidget> {
           height: 150,
           width: 150,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: AppColors.hexE7E7E7
-            ),
+            border: Border.all(color: AppColors.hexE7E7E7),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(

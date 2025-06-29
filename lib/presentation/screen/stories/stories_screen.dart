@@ -152,11 +152,12 @@ class StoryWidget extends StatelessWidget {
               topLeft: Radius.circular(16),
               topRight: Radius.circular(16),
             ),
-            child: CachedNetworkImage(
-              imageUrl: story.imageUrl,
-              height: 168,
-              width: double.infinity,
-              fit: BoxFit.fitWidth,
+            child: AspectRatio(
+              aspectRatio: 16/9,
+              child: CachedNetworkImage(
+                imageUrl: story.imageUrl,
+                fit: BoxFit.cover
+              ),
             ),
           ),
           Padding(
