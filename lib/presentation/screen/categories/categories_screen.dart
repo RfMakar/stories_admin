@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -143,10 +144,10 @@ class CategoryWidget extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadiusGeometry.circular(16),
-            child: Image.network(
+            child: CachedNetworkImage(
+              imageUrl: category.iconUrl,
               height: 104,
               width: 104,
-              category.iconUrl,
               fit: BoxFit.fill,
             ),
           ),
@@ -183,6 +184,7 @@ class CategoryWidget extends StatelessWidget {
                                 CategoriesDelete(categoryId: category.id),
                               );
                         }
+
                         final isResult =
                             await showDeleteBottomSheet(context: context);
 

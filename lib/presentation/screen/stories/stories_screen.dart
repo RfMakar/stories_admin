@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -148,11 +149,13 @@ class StoryWidget extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-            child: Image.network(
+              topLeft: Radius.circular(16),
+              topRight: Radius.circular(16),
+            ),
+            child: CachedNetworkImage(
+              imageUrl: story.imageUrl,
               height: 168,
               width: double.infinity,
-              story.imageUrl,
               fit: BoxFit.fitWidth,
             ),
           ),
