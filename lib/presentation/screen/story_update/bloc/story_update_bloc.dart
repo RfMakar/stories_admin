@@ -158,30 +158,36 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
 
     try {
       //Обновление сказки без категорий
-      final updateStoryData = await _storyRepository.updateStory(
-        id: state.storyModel!.id,
-        title: state.title,
-        description: state.description,
-        content: state.content,
-        image: state.image,
-      );
+      if (state.image != null ||
+          state.title != null ||
+          state.description != null ||
+          state.content != null) {
+        await _storyRepository.updateStory(
+          id: state.storyModel!.id,
+          title: state.title,
+          description: state.description,
+          content: state.content,
+          image: state.image,
+        );
+      }
+
       //Добавление категорий
       for (var categoryId in toAdd) {
         await _storyCategoriesRepository.createCategoryToStory(
-          storyId: updateStoryData.id,
+          storyId: state.storyModel!.id,
           categoryId: categoryId,
         );
       }
       //Удаление категорий
       for (var categoryId in toRemove) {
         await _storyCategoriesRepository.deleteCategoryToStory(
-          storyId: updateStoryData.id,
+          storyId: state.storyModel!.id,
           categoryId: categoryId,
         );
       }
       //Загрузка новой сказки со всеми категориями
       final story = await _storyRepository.getStory(
-        id: updateStoryData.id,
+        id: state.storyModel!.id,
       );
       //Обновление состояния
       emit(state.copyWith(
