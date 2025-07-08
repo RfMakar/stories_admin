@@ -62,22 +62,24 @@ class CategoryCreateScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SelectIconCategory(),
-        AppTextField(
-          name: 'Name',
-          hintText: 'Имя категории',
-          onChanged: (name) {
-            context.read<CategoryCreateBloc>().add(
-                  CategoryCreateName(
-                    name: name,
-                  ),
-                );
-          },
-        ),
-        ButtonCategoryCreate(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SelectIconCategory(),
+          AppTextField(
+            name: 'Name',
+            hintText: 'Имя категории',
+            onChanged: (name) {
+              context.read<CategoryCreateBloc>().add(
+                    CategoryCreateName(
+                      name: name,
+                    ),
+                  );
+            },
+          ),
+          ButtonCategoryCreate(),
+        ],
+      ),
     );
   }
 }

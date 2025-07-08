@@ -87,20 +87,22 @@ class CategoryUpdateScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bloc = context.read<CategoryUpdateBloc>();
-    return ListView(
-      padding: EdgeInsets.all(8),
-      children: [
-        SelectIconCategory(),
-        AppTextField(
-          initialValue: bloc.state.categoryModel?.name,
-          name: 'Name',
-          hintText: 'Имя категории',
-          onChanged: (name) {
-            bloc.add(CategoryUpdateName(name: name));
-          },
-        ),
-        ButtonCategoryUpdate(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+      
+        children: [
+          SelectIconCategory(),
+          AppTextField(
+            initialValue: bloc.state.categoryModel?.name,
+            name: 'Name',
+            hintText: 'Имя категории',
+            onChanged: (name) {
+              bloc.add(CategoryUpdateName(name: name));
+            },
+          ),
+          ButtonCategoryUpdate(),
+        ],
+      ),
     );
   }
 }

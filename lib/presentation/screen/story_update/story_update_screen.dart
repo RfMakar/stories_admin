@@ -98,45 +98,46 @@ class StoryUpdateScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final bloc = context.read<StoryUpdateBloc>();
     final story = bloc.state.storyModel;
-    return ListView(
-      padding: EdgeInsets.all(8),
-      children: [
-        SelectImageStory(),
-        AppTextField(
-          initialValue: story?.title,
-          name: 'Title',
-          hintText: 'Название сказки',
-          onChanged: (title) {
-            bloc.add(StoryUpdateTitle(
-              title: title,
-            ));
-          },
-        ),
-        AppTextField(
-          initialValue: story?.description,
-          name: 'Description',
-          hintText: 'Описание сказки',
-          maxLines: 5,
-          onChanged: (description) {
-            bloc.add(StoryUpdateDescription(
-              description: description,
-            ));
-          },
-        ),
-        AppTextField(
-          initialValue: story?.content,
-          name: 'Content',
-          hintText: 'Содержание сказки',
-          maxLines: 10,
-          onChanged: (content) {
-            bloc.add(StoryUpdateContent(
-              content: content,
-            ));
-          },
-        ),
-        CategoriesList(),
-        ButtonStoryCreate(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SelectImageStory(),
+          AppTextField(
+            initialValue: story?.title,
+            name: 'Title',
+            hintText: 'Название сказки',
+            onChanged: (title) {
+              bloc.add(StoryUpdateTitle(
+                title: title,
+              ));
+            },
+          ),
+          AppTextField(
+            initialValue: story?.description,
+            name: 'Description',
+            hintText: 'Описание сказки',
+            maxLines: 5,
+            onChanged: (description) {
+              bloc.add(StoryUpdateDescription(
+                description: description,
+              ));
+            },
+          ),
+          AppTextField(
+            initialValue: story?.content,
+            name: 'Content',
+            hintText: 'Содержание сказки',
+            maxLines: 10,
+            onChanged: (content) {
+              bloc.add(StoryUpdateContent(
+                content: content,
+              ));
+            },
+          ),
+          CategoriesList(),
+          ButtonStoryCreate(),
+        ],
+      ),
     );
   }
 }

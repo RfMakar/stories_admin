@@ -73,47 +73,49 @@ class StoryCreateScreenBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        SelectImageStory(),
-        AppTextField(
-          name: 'Title',
-          hintText: 'Название сказки',
-          onChanged: (title) {
-            context.read<StoryCreateBloc>().add(
-                  StoryCreateTitle(
-                    title: title,
-                  ),
-                );
-          },
-        ),
-        AppTextField(
-          name: 'Description',
-          hintText: 'Описание сказки',
-          maxLines: 5,
-          onChanged: (description) {
-            context.read<StoryCreateBloc>().add(
-                  StoryCreateDescription(
-                    description: description,
-                  ),
-                );
-          },
-        ),
-        AppTextField(
-          name: 'Content',
-          hintText: 'Содержание сказки',
-          maxLines: 10,
-          onChanged: (content) {
-            context.read<StoryCreateBloc>().add(
-                  StoryCreateContent(
-                    content: content,
-                  ),
-                );
-          },
-        ),
-        CategoriesList(),
-        ButtonStoryCreate(),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          SelectImageStory(),
+          AppTextField(
+            name: 'Title',
+            hintText: 'Название сказки',
+            onChanged: (title) {
+              context.read<StoryCreateBloc>().add(
+                    StoryCreateTitle(
+                      title: title,
+                    ),
+                  );
+            },
+          ),
+          AppTextField(
+            name: 'Description',
+            hintText: 'Описание сказки',
+            maxLines: 5,
+            onChanged: (description) {
+              context.read<StoryCreateBloc>().add(
+                    StoryCreateDescription(
+                      description: description,
+                    ),
+                  );
+            },
+          ),
+          AppTextField(
+            name: 'Content',
+            hintText: 'Содержание сказки',
+            maxLines: 10,
+            onChanged: (content) {
+              context.read<StoryCreateBloc>().add(
+                    StoryCreateContent(
+                      content: content,
+                    ),
+                  );
+            },
+          ),
+          CategoriesList(),
+          ButtonStoryCreate(),
+        ],
+      ),
     );
   }
 }
