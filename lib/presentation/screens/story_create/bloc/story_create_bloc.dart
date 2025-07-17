@@ -15,7 +15,7 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
     this._storyRepository,
     this._categoryRepository,
     this._storyCategoriesRepository,
-  ) : super(StoryCreateState()) {
+  ) : super(const StoryCreateState()) {
     on<StoryCreateInitial>(_initial);
     on<StoryCreateImage>(_createImage);
     on<StoryCreateTitle>(_createTitle);

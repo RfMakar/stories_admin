@@ -1,12 +1,12 @@
 import 'package:go_router/go_router.dart';
 import 'package:stories_admin/config/router/routers.dart';
-import 'package:stories_admin/presentation/screen/categories/categories_screen.dart';
-import 'package:stories_admin/presentation/screen/category_create/category_create_screen.dart';
-import 'package:stories_admin/presentation/screen/category_update/category_update_screen.dart';
-import 'package:stories_admin/presentation/screen/home/home_screen.dart';
-import 'package:stories_admin/presentation/screen/stories/stories_screen.dart';
-import 'package:stories_admin/presentation/screen/story_create/story_create_screen.dart';
-import 'package:stories_admin/presentation/screen/story_update/story_update_screen.dart';
+import 'package:stories_admin/presentation/screens/categories/categories_screen.dart';
+import 'package:stories_admin/presentation/screens/category_create/category_create_screen.dart';
+import 'package:stories_admin/presentation/screens/category_update/category_update_screen.dart';
+import 'package:stories_admin/presentation/screens/home/home_screen.dart';
+import 'package:stories_admin/presentation/screens/stories/stories_screen.dart';
+import 'package:stories_admin/presentation/screens/story_create/story_create_screen.dart';
+import 'package:stories_admin/presentation/screens/story_update/story_update_screen.dart';
 
 final router = GoRouter(
   initialLocation: Routers.pathHomeScreen,

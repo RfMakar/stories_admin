@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stories_admin/aplication.dart';
+import 'package:stories_admin/application.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
-import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
-import 'package:stories_admin/presentation/screen/category_create/bloc/category_create_bloc.dart';
+import 'package:stories_admin/presentation/screens/categories/bloc/categories_bloc.dart';
+import 'package:stories_admin/presentation/screens/category_create/bloc/category_create_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_icon_storage.dart';
@@ -19,7 +19,7 @@ class CategoryCreateScreen extends StatelessWidget {
     final categoryRepository = diStoriesData<CategoryRepository>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Создать категорию'),
+        title: const Text('Создать категорию'),
       ),
       body: BlocProvider(
         create: (context) => CategoryCreateBloc(categoryRepository),
@@ -41,7 +41,7 @@ class CategoryCreateScreen extends StatelessWidget {
             }
             if (state.isValidateData) {
               rootScaffoldMessengerKey.currentState?.showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text('Заполните все данные'),
                 ),
               );
@@ -49,7 +49,7 @@ class CategoryCreateScreen extends StatelessWidget {
           },
           buildWhen: (previous, current) => false,
           builder: (context, state) {
-            return CategoryCreateScreenBody();
+            return const CategoryCreateScreenBody();
           },
         ),
       ),
@@ -65,7 +65,7 @@ class CategoryCreateScreenBody extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SelectIconCategory(),
+          const SelectIconCategory(),
           AppTextField(
             name: 'Name',
             hintText: 'Имя категории',
@@ -77,7 +77,7 @@ class CategoryCreateScreenBody extends StatelessWidget {
                   );
             },
           ),
-          ButtonCategoryCreate(),
+          const ButtonCategoryCreate(),
         ],
       ),
     );
@@ -118,10 +118,10 @@ class ButtonCategoryCreate extends StatelessWidget {
           onTap: state.isSubmitting
               ? null
               : () => context.read<CategoryCreateBloc>().add(
-                    CategoryCreate(),
+                    const CategoryCreate(),
                   ),
           child: state.isSubmitting
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Text(
                   'Создать',
                   style: AppTextStyles.s16hFFFFFFn,

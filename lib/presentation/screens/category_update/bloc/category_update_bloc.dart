@@ -12,7 +12,8 @@ part 'category_update_state.dart';
 
 class CategoryUpdateBloc
     extends Bloc<CategoryUpdateEvent, CategoryUpdateState> {
-  CategoryUpdateBloc(this._categoryRepository) : super(CategoryUpdateState()) {
+  CategoryUpdateBloc(this._categoryRepository)
+      : super(const CategoryUpdateState()) {
     on<CategoryUpdateInitial>(_initial);
     on<CategoryUpdateName>(_updateName);
     on<CategoryUpdateIcon>(_updateIcon);

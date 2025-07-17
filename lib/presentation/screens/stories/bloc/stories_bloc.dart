@@ -10,7 +10,7 @@ part 'stories_event.dart';
 part 'stories_state.dart';
 
 class StoriesBloc extends Bloc<StoriesEvent, StoriesState> {
-  StoriesBloc(this._storyRepository) : super(StoriesState()) {
+  StoriesBloc(this._storyRepository) : super(const StoriesState()) {
     on<StoriesInitial>(_initial);
     on<StoriesDelete>(_deleteStory);
     on<StoriesDeleteAll>(_deleteAll);

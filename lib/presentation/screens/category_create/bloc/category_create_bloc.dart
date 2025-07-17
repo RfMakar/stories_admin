@@ -11,7 +11,7 @@ part 'category_create_state.dart';
 
 class CategoryCreateBloc
     extends Bloc<CategoryCreateEvent, CategoryCreateState> {
-  CategoryCreateBloc(this._categoryRepository) : super(CategoryCreateState()) {
+  CategoryCreateBloc(this._categoryRepository) : super(const CategoryCreateState()) {
     on<CategoryCreateName>(_createName);
     on<CategoryCreateIcon>(_createIcon);
     on<CategoryCreate>(_createCategory);

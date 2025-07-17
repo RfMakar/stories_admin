@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stories_admin/aplication.dart';
+import 'package:stories_admin/application.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
-import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
-import 'package:stories_admin/presentation/screen/category_update/bloc/category_update_bloc.dart';
+import 'package:stories_admin/presentation/screens/categories/bloc/categories_bloc.dart';
+import 'package:stories_admin/presentation/screens/category_update/bloc/category_update_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_icon_storage.dart';
@@ -19,7 +19,7 @@ class CategoryUpdateScreen extends StatelessWidget {
     final categoryRepository = diStoriesData<CategoryRepository>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Обновить категорию'),
+        title: const Text('Обновить категорию'),
       ),
       body: BlocProvider(
         create: (context) => CategoryUpdateBloc(categoryRepository)
@@ -46,7 +46,7 @@ class CategoryUpdateScreen extends StatelessWidget {
             }
             if (state.isValidateData) {
               rootScaffoldMessengerKey.currentState?.showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text('Нет данных для обновления'),
                 ),
               );
@@ -62,11 +62,11 @@ class CategoryUpdateScreen extends StatelessWidget {
             switch (state.status) {
               case CategoryUpdateStatus.initial:
               case CategoryUpdateStatus.update:
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
               case CategoryUpdateStatus.success:
-                return CategoryUpdateScreenBody();
+                return const CategoryUpdateScreenBody();
               case CategoryUpdateStatus.failure:
                 return Center(
                   child: Text(
@@ -89,9 +89,8 @@ class CategoryUpdateScreenBody extends StatelessWidget {
     final bloc = context.read<CategoryUpdateBloc>();
     return SingleChildScrollView(
       child: Column(
-      
         children: [
-          SelectIconCategory(),
+          const SelectIconCategory(),
           AppTextField(
             initialValue: bloc.state.categoryModel?.name,
             name: 'Name',
@@ -100,7 +99,7 @@ class CategoryUpdateScreenBody extends StatelessWidget {
               bloc.add(CategoryUpdateName(name: name));
             },
           ),
-          ButtonCategoryUpdate(),
+          const ButtonCategoryUpdate(),
         ],
       ),
     );
@@ -138,10 +137,10 @@ class ButtonCategoryUpdate extends StatelessWidget {
           onTap: state.isSubmitting
               ? null
               : () => context.read<CategoryUpdateBloc>().add(
-                    CategoryUpdate(),
+                    const CategoryUpdate(),
                   ),
           child: state.isSubmitting
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Text(
                   'Обновить',
                   style: AppTextStyles.s16hFFFFFFn,

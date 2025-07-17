@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stories_admin/aplication.dart';
+import 'package:stories_admin/application.dart';
 import 'package:stories_admin/config/UI/app_assets.dart';
 import 'package:stories_admin/config/UI/app_colors.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/config/router/routers.dart';
 import 'package:stories_admin/presentation/bottom_sheet/sheet_delete.dart';
-import 'package:stories_admin/presentation/screen/categories/bloc/categories_bloc.dart';
+import 'package:stories_admin/presentation/screens/categories/bloc/categories_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_data/models/category_model.dart';
 
@@ -20,7 +20,7 @@ class CategoriesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Категории'),
+        title: const Text('Категории'),
         // actions: [
         //   IconButton(
         //     // onPressed: null,
@@ -54,11 +54,11 @@ class CategoriesScreen extends StatelessWidget {
         builder: (context, state) {
           switch (state.status) {
             case CategoriesStatus.initial:
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator.adaptive(),
               );
             case CategoriesStatus.success:
-              return CategoriesScreenBody();
+              return const CategoriesScreenBody();
             case CategoriesStatus.failure:
               return Center(
                 child: Text(
@@ -86,7 +86,7 @@ class CategoriesScreenBody extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: [
             ListView.builder(
-              padding: EdgeInsets.only(bottom: 80),
+              padding: const EdgeInsets.only(bottom: 80),
               itemCount: categories.length,
               itemBuilder: (context, index) {
                 final category = categories[index];
@@ -96,7 +96,7 @@ class CategoriesScreenBody extends StatelessWidget {
                 );
               },
             ),
-            ButtonAddCategory(),
+           const ButtonAddCategory(),
           ],
         );
       },
@@ -128,11 +128,11 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 8,
       ),
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(

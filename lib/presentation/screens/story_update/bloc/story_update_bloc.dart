@@ -17,7 +17,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     this._storyRepository,
     this._categoryRepository,
     this._storyCategoriesRepository,
-  ) : super(StoryUpdateState()) {
+  ) : super(const StoryUpdateState()) {
     on<StoryUpdateInitial>(_initial);
     on<StoryUpdateTitle>(_updateTitle);
     on<StoryUpdateDescription>(_updateDescription);

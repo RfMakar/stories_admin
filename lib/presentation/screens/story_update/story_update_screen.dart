@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:stories_admin/aplication.dart';
+import 'package:stories_admin/application.dart';
 import 'package:stories_admin/config/UI/app_text_style.dart';
-import 'package:stories_admin/presentation/screen/stories/bloc/stories_bloc.dart';
-import 'package:stories_admin/presentation/screen/story_update/bloc/story_update_bloc.dart';
+import 'package:stories_admin/presentation/screens/stories/bloc/stories_bloc.dart';
+import 'package:stories_admin/presentation/screens/story_update/bloc/story_update_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_list_tile.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
@@ -26,7 +26,7 @@ class StoryUpdateScreen extends StatelessWidget {
         diStoriesData<StoryCategoriesRepository>();
     return Scaffold(
       appBar: AppBar(
-        title: Text('Обновить сказку'),
+        title: const Text('Обновить сказку'),
       ),
       body: BlocProvider(
         create: (context) => StoryUpdateBloc(
@@ -56,7 +56,7 @@ class StoryUpdateScreen extends StatelessWidget {
             }
             if (state.isValidateData) {
               rootScaffoldMessengerKey.currentState?.showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text('Нет данных для обновления'),
                 ),
               );
@@ -72,11 +72,11 @@ class StoryUpdateScreen extends StatelessWidget {
             switch (state.status) {
               case StoryUpdateStatus.initial:
               case StoryUpdateStatus.update:
-                return Center(
+                return const Center(
                   child: CircularProgressIndicator.adaptive(),
                 );
               case StoryUpdateStatus.success:
-                return StoryUpdateScreenBody();
+                return const StoryUpdateScreenBody();
               case StoryUpdateStatus.failure:
                 return Center(
                   child: Text(
@@ -101,7 +101,7 @@ class StoryUpdateScreenBody extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SelectImageStory(),
+          const SelectImageStory(),
           AppTextField(
             initialValue: story?.title,
             name: 'Title',
@@ -134,8 +134,8 @@ class StoryUpdateScreenBody extends StatelessWidget {
               ));
             },
           ),
-          CategoriesList(),
-          ButtonStoryCreate(),
+          const CategoriesList(),
+          const ButtonStoryCreate(),
         ],
       ),
     );
@@ -175,19 +175,19 @@ class CategoriesList extends StatelessWidget {
         spacing: 8,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Categories'),
+          const Text('Categories'),
           BlocSelector<StoryUpdateBloc, StoryUpdateState, List<CategoryModel>>(
             selector: (state) {
               return state.categories;
             },
             builder: (context, categories) {
               if (categories.isEmpty) {
-                return Center(
+                return const Center(
                   child: Text('Категорий нет'),
                 );
               }
               return ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
@@ -236,10 +236,10 @@ class ButtonStoryCreate extends StatelessWidget {
           onTap: state.isSubmitting
               ? null
               : () => context.read<StoryUpdateBloc>().add(
-                    StoryUpdate(),
+                    const StoryUpdate(),
                   ),
           child: state.isSubmitting
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Text(
                   'Обновить',
                   style: AppTextStyles.s16hFFFFFFn,

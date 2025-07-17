@@ -92,7 +92,7 @@ class _SelectIconStorageWidgetState extends State<SelectIconStorageWidget> {
             border: Border.all(color: AppColors.hexE7E7E7),
             borderRadius: BorderRadius.circular(16),
           ),
-          child: Center(
+          child: const Center(
             child: Text('Icon'),
           ),
         ),
