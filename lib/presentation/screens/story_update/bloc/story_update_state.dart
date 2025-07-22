@@ -9,6 +9,7 @@ final class StoryUpdateState {
     this.description,
     this.content,
     this.image,
+    this.audio,
     this.storyModel,
     this.updateStoryModel,
     this.categories = const [],
@@ -22,6 +23,7 @@ final class StoryUpdateState {
   final String? description;
   final String? content;
   final File? image;
+  final File? audio;
   final StoryModel? storyModel; //текущая сказка
   final StoryModel? updateStoryModel; //обновленная сказка
   final List<CategoryModel> categories; //все категории
@@ -36,6 +38,7 @@ final class StoryUpdateState {
     String? description,
     String? content,
     File? image,
+    File? audio,
     StoryModel? storyModel,
     StoryModel? updateStoryModel,
     List<CategoryModel>? categories,
@@ -50,6 +53,7 @@ final class StoryUpdateState {
       description: description ?? this.description,
       content: content ?? this.content,
       image: image ?? this.image,
+      audio: audio ?? this.audio,
       storyModel: storyModel ?? this.storyModel,
       categories: categories ?? this.categories,
       updateStoryModel: updateStoryModel ?? this.updateStoryModel,

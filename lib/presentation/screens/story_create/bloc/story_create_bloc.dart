@@ -18,6 +18,7 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
   ) : super(const StoryCreateState()) {
     on<StoryCreateInitial>(_initial);
     on<StoryCreateImage>(_createImage);
+    on<StoryCreateAudio>(_createAudio);
     on<StoryCreateTitle>(_createTitle);
     on<StoryCreateDescription>(_createDescription);
     on<StoryCreateContent>(_createContent);
@@ -52,6 +53,13 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
     Emitter<StoryCreateState> emit,
   ) async {
     emit(state.copyWith(image: event.image));
+  }
+
+  Future<void> _createAudio(
+    StoryCreateAudio event,
+    Emitter<StoryCreateState> emit,
+  ) async {
+    emit(state.copyWith(audio: event.audio));
   }
 
   Future<void> _createTitle(
@@ -131,6 +139,7 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
         description: state.description!,
         content: state.content!,
         image: state.image!,
+        audio: state.audio,
       );
       //создаем категории у сказки
       for (var categoryId in state.selectCategoriesId) {

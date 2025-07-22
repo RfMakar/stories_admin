@@ -23,6 +23,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     on<StoryUpdateDescription>(_updateDescription);
     on<StoryUpdateContent>(_updateContent);
     on<StoryUpdateImage>(_updateImage);
+    on<StoryUpdateAudio>(_updateAudio);
     on<StoryUpdateCategoryToggle>(_updateCategoryToggle);
     on<StoryUpdate>(_update);
   }
@@ -105,6 +106,13 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     emit(state.copyWith(image: event.image));
   }
 
+  Future<void> _updateAudio(
+    StoryUpdateAudio event,
+    Emitter<StoryUpdateState> emit,
+  ) async {
+    emit(state.copyWith(audio: event.audio));
+  }
+
   Future<void> _updateCategoryToggle(
     StoryUpdateCategoryToggle event,
     Emitter<StoryUpdateState> emit,
@@ -141,6 +149,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     final toRemove = categoriesIds.difference(state.selectedCategoriesIds);
     //Валидация
     final isValidate = state.image == null &&
+        state.audio == null &&
         state.title == null &&
         state.description == null &&
         state.content == null &&
@@ -168,6 +177,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
           description: state.description,
           content: state.content,
           image: state.image,
+          audio: state.audio,
         );
       }
 

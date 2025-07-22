@@ -8,6 +8,7 @@ import 'package:stories_admin/presentation/screens/story_create/bloc/story_creat
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_list_tile.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
+import 'package:stories_admin/presentation/widgets/select_audio_storage.dart';
 import 'package:stories_admin/presentation/widgets/select_image_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/models/index.dart';
@@ -77,6 +78,7 @@ class StoryCreateScreenBody extends StatelessWidget {
       child: Column(
         children: [
           const SelectImageStory(),
+          const SelectAudioStory(),
           AppTextField(
             name: 'Title',
             hintText: 'Название сказки',
@@ -134,6 +136,29 @@ class SelectImageStory extends StatelessWidget {
             context.read<StoryCreateBloc>().add(
                   StoryCreateImage(
                     image: image,
+                  ),
+                );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class SelectAudioStory extends StatelessWidget {
+  const SelectAudioStory({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SelectAudioStorageWidget(
+        audio: null,
+        onPatchAudio: (audio) {
+          if (audio != null) {
+            context.read<StoryCreateBloc>().add(
+                  StoryCreateAudio(
+                    audio: audio,
                   ),
                 );
           }

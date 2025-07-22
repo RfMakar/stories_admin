@@ -8,6 +8,7 @@ import 'package:stories_admin/presentation/screens/story_update/bloc/story_updat
 import 'package:stories_admin/presentation/widgets/app_button.dart';
 import 'package:stories_admin/presentation/widgets/app_list_tile.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
+import 'package:stories_admin/presentation/widgets/select_audio_storage.dart';
 import 'package:stories_admin/presentation/widgets/select_image_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/models/category_model.dart';
@@ -102,6 +103,7 @@ class StoryUpdateScreenBody extends StatelessWidget {
       child: Column(
         children: [
           const SelectImageStory(),
+          const SelectAudioStory(),
           AppTextField(
             initialValue: story?.title,
             name: 'Title',
@@ -157,6 +159,30 @@ class SelectImageStory extends StatelessWidget {
             bloc.add(StoryUpdateImage(
               image: image,
             ));
+          }
+        },
+      ),
+    );
+  }
+}
+
+class SelectAudioStory extends StatelessWidget {
+  const SelectAudioStory({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+     final bloc = context.read<StoryUpdateBloc>();
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: SelectAudioStorageWidget(
+        audio: bloc.state.storyModel?.audioUrl,
+        onPatchAudio: (audio) {
+          if (audio != null) {
+            context.read<StoryUpdateBloc>().add(
+                  StoryUpdateAudio(
+                    audio: audio,
+                  ),
+                );
           }
         },
       ),

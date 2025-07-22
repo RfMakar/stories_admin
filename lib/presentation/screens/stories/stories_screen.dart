@@ -200,6 +200,12 @@ class StoryWidget extends StatelessWidget {
                     story.readCount.toString(),
                     style: AppTextStyles.s14h000000n,
                   ),
+                  story.audio != null
+                      ? IconButton(
+                          onPressed: null,
+                          icon: Icon(Icons.headphones_outlined, color: AppColors.hex000000,),
+                        )
+                      : Container(),
                 ],
               ),
               Row(

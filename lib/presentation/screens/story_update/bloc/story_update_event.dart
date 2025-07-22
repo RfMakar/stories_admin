@@ -29,6 +29,11 @@ final class StoryUpdateImage extends StoryUpdateEvent {
   final File image;
 }
 
+final class StoryUpdateAudio extends StoryUpdateEvent {
+  const StoryUpdateAudio({required this.audio});
+  final File audio;
+}
+
 final class StoryUpdateCategoryToggle extends StoryUpdateEvent {
   const StoryUpdateCategoryToggle({required this.categoryId});
   final String categoryId;

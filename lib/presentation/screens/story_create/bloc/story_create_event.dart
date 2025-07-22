@@ -29,6 +29,11 @@ final class StoryCreateImage extends StoryCreateEvent {
   final File image;
 }
 
+final class StoryCreateAudio extends StoryCreateEvent {
+  const StoryCreateAudio({required this.audio});
+  final File audio;
+}
+
 
 final class StoryCreateCategoryToggle extends StoryCreateEvent {
   const StoryCreateCategoryToggle({required this.categoryId});

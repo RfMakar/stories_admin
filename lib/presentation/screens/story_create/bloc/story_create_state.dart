@@ -9,6 +9,7 @@ final class StoryCreateState {
     this.description,
     this.content,
     this.image,
+    this.audio,
     this.categories = const [],
     this.selectCategoriesId = const {},
     this.storyModel,
@@ -21,6 +22,7 @@ final class StoryCreateState {
   final String? description;
   final String? content;
   final File? image;
+  final File? audio;
   final List<CategoryModel> categories;
   final Set<String> selectCategoriesId;
   final StoryModel? storyModel;
@@ -34,6 +36,7 @@ final class StoryCreateState {
     String? description,
     String? content,
     File? image,
+    File? audio,
     List<CategoryModel>? categories,
     Set<String>? selectCategoriesId,
     StoryModel? storyModel,
@@ -47,6 +50,7 @@ final class StoryCreateState {
       description: description ?? this.description,
       content: content ?? this.content,
       image: image ?? this.image,
+      audio: audio ?? this.audio,
       categories: categories ?? this.categories,
       selectCategoriesId: selectCategoriesId ?? this.selectCategoriesId,
       storyModel: storyModel ?? this.storyModel,
