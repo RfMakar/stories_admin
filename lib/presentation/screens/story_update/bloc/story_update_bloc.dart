@@ -168,6 +168,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
     try {
       //Обновление сказки без категорий
       if (state.image != null ||
+          state.audio != null ||
           state.title != null ||
           state.description != null ||
           state.content != null) {
