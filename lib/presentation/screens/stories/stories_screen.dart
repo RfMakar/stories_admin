@@ -132,121 +132,124 @@ class StoryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.hexE7E7E7,
+    return GestureDetector(
+      onTap: ()=>context.pushNamed(Routers.pathStoryScreen, extra: story),
+      child: Container(
+        margin: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 8,
         ),
-      ),
-      child: Column(
-        spacing: 8,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ClipRRect(
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16),
-              topRight: Radius.circular(16),
-            ),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: CachedNetworkImage(
-                  imageUrl: story.imageUrl, fit: BoxFit.cover),
-            ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: AppColors.hexE7E7E7,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              story.title,
-              style: AppTextStyles.s14h000000n,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              story.description,
-              style: AppTextStyles.s12h000000n,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          SizedBox(
-            height: 22,
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              itemCount: story.categories.length,
-              itemBuilder: (context, index) {
-                final category = story.categories[index];
-                return CategoryCardStory(category: category);
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: null,
-                    icon: SvgPicture.asset(AppAssets.iconShow),
-                  ),
-                  Text(
-                    story.readCount.toString(),
-                    style: AppTextStyles.s14h000000n,
-                  ),
-                  story.audio != null
-                      ? IconButton(
-                          onPressed: null,
-                          icon: Icon(Icons.headphones_outlined, color: AppColors.hex000000,),
-                        )
-                      : Container(),
-                ],
+        ),
+        child: Column(
+          spacing: 8,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16),
+                topRight: Radius.circular(16),
               ),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      context.pushNamed(
-                        Routers.pathStoryUpdateScreen,
-                        extra: story.id,
-                      );
-                    },
-                    icon: SvgPicture.asset(
-                      AppAssets.iconEdit,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: CachedNetworkImage(
+                    imageUrl: story.imageUrl, fit: BoxFit.cover),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(
+                story.title,
+                style: AppTextStyles.s14h000000n,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                story.description,
+                style: AppTextStyles.s12h000000n,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            SizedBox(
+              height: 22,
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: story.categories.length,
+                itemBuilder: (context, index) {
+                  final category = story.categories[index];
+                  return CategoryCardStory(category: category);
+                },
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: null,
+                      icon: SvgPicture.asset(AppAssets.iconShow),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: () async {
-                      deleteAction() {
-                        context.read<StoriesBloc>().add(
-                              StoriesDelete(
-                                storyId: story.id,
-                              ),
-                            );
-                      }
-
-                      final isResult =
-                          await showDeleteBottomSheet(context: context);
-
-                      if (isResult == true) {
-                        deleteAction();
-                      }
-                    },
-                    icon: SvgPicture.asset(
-                      AppAssets.iconDelete,
+                    Text(
+                      story.readCount.toString(),
+                      style: AppTextStyles.s14h000000n,
                     ),
-                  ),
-                ],
-              )
-            ],
-          )
-        ],
+                    story.audio != null
+                        ? IconButton(
+                            onPressed: null,
+                            icon: Icon(Icons.headphones_outlined, color: AppColors.hex000000,),
+                          )
+                        : Container(),
+                  ],
+                ),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        context.pushNamed(
+                          Routers.pathStoryUpdateScreen,
+                          extra: story.id,
+                        );
+                      },
+                      icon: SvgPicture.asset(
+                        AppAssets.iconEdit,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () async {
+                        deleteAction() {
+                          context.read<StoriesBloc>().add(
+                                StoriesDelete(
+                                  storyId: story.id,
+                                ),
+                              );
+                        }
+      
+                        final isResult =
+                            await showDeleteBottomSheet(context: context);
+      
+                        if (isResult == true) {
+                          deleteAction();
+                        }
+                      },
+                      icon: SvgPicture.asset(
+                        AppAssets.iconDelete,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

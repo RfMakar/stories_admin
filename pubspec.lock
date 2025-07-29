@@ -783,7 +783,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fcfcc61a0d73b4348fb07a0b80148f8b85034735
+      resolved-ref: "8c4b9ba3d19f1aa35f80b78761d2558a05fdf8dc"
       url: "https://github.com/RfMakar/stories_data.git"
     source: git
     version: "1.0.0"

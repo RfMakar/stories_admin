@@ -5,8 +5,10 @@ import 'package:stories_admin/presentation/screens/category_create/category_crea
 import 'package:stories_admin/presentation/screens/category_update/category_update_screen.dart';
 import 'package:stories_admin/presentation/screens/home/home_screen.dart';
 import 'package:stories_admin/presentation/screens/stories/stories_screen.dart';
+import 'package:stories_admin/presentation/screens/story/story_screen.dart';
 import 'package:stories_admin/presentation/screens/story_create/story_create_screen.dart';
 import 'package:stories_admin/presentation/screens/story_update/story_update_screen.dart';
+import 'package:stories_data/models/index.dart';
 
 final router = GoRouter(
   initialLocation: Routers.pathHomeScreen,
@@ -54,6 +56,14 @@ final router = GoRouter(
           builder: (context, state) {
             final storyId = state.extra as String;
             return StoryUpdateScreen(storyId: storyId);
+          },
+        ),
+        GoRoute(
+          path: Routers.pathStoryScreen,
+          name: Routers.pathStoryScreen,
+          builder: (context, state) {
+            final story = state.extra as StoryModel;
+            return StoryScreen(story: story);
           },
         ),
       ],
