@@ -4,9 +4,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:stories_admin/config/UI/app_theme.dart';
 import 'package:stories_admin/config/router/router.dart';
 import 'package:stories_admin/presentation/screens/categories/bloc/categories_bloc.dart';
+import 'package:stories_admin/presentation/screens/categories_types/bloc/categories_types_bloc.dart';
 import 'package:stories_admin/presentation/screens/stories/bloc/stories_bloc.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/repositories/category_type_repository.dart';
 import 'package:stories_data/repositories/story_repository.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
@@ -18,12 +20,17 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryRepository = diStoriesData<CategoryRepository>();
+    final categoryTypeRepository = diStoriesData<CategoryTypeRepository>();
     final storyRepository = diStoriesData<StoryRepository>();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => CategoriesBloc(categoryRepository)
             ..add(const CategoriesInitial()),
+        ),
+        BlocProvider(
+          create: (context) => CategoriesTypesBloc(categoryTypeRepository)
+            ..add(const CategoriesTypesInitial()),
         ),
         BlocProvider(
           create: (context) =>

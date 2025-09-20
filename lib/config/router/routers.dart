@@ -4,6 +4,10 @@ final class Routers {
   static const pathCategoriesScreen = '/categories';
   static const pathCategoryCreateScreen = '/category_create';
   static const pathCategoryUpdateScreen = '/category_update';
+  //categories_types
+  static const pathCategoriesTypesScreen = '/categories_types';
+  static const pathCategoryTypeCreateScreen = '/category_type_create';
+  static const pathCategoryTypeUpdateScreen = '/category_type_update';
   //stories
   static const pathStoryScreen = '/story';
   static const pathStoriesScreen = '/stories';

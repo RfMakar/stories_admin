@@ -47,6 +47,7 @@ class CategoryCreateBloc
       final data = await _categoryRepository.createCategory(
         name: state.name!,
         icon: state.icon!,
+        typeId: '',
       );
       emit(state.copyWith(
         status: CategoryCreateStatus.success,

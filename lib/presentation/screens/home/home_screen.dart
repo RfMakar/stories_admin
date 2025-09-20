@@ -30,8 +30,13 @@ class HomeScreenBody extends StatelessWidget {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 16,
+        mainAxisSpacing: 16
       ),
       children: [
+        CategoryIconWidget(
+          name: 'Типы категорий',
+          onTap: () => context.pushNamed(Routers.pathCategoriesTypesScreen),
+        ),
         CategoryIconWidget(
           name: 'Категории',
           onTap: () => context.pushNamed(Routers.pathCategoriesScreen),

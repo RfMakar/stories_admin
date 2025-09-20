@@ -1,7 +1,10 @@
 import 'package:go_router/go_router.dart';
 import 'package:stories_admin/config/router/routers.dart';
 import 'package:stories_admin/presentation/screens/categories/categories_screen.dart';
+import 'package:stories_admin/presentation/screens/categories_types/categories_types_screen.dart';
 import 'package:stories_admin/presentation/screens/category_create/category_create_screen.dart';
+import 'package:stories_admin/presentation/screens/category_type_create/category_type_create_screen.dart';
+import 'package:stories_admin/presentation/screens/category_type_update/category_type_update_screen.dart';
 import 'package:stories_admin/presentation/screens/category_update/category_update_screen.dart';
 import 'package:stories_admin/presentation/screens/home/home_screen.dart';
 import 'package:stories_admin/presentation/screens/stories/stories_screen.dart';
@@ -35,6 +38,28 @@ final router = GoRouter(
             final categoryId = state.extra as String;
             return CategoryUpdateScreen(
               categoryId: categoryId,
+            );
+          },
+        ),
+      ],
+    ),
+    GoRoute(
+      path: Routers.pathCategoriesTypesScreen,
+      name: Routers.pathCategoriesTypesScreen,
+      builder: (context, state) => const CategoriesTypesScreen(),
+      routes: [
+        GoRoute(
+          path: Routers.pathCategoryTypeCreateScreen,
+          name: Routers.pathCategoryTypeCreateScreen,
+          builder: (context, state) => const CategoryTypeCreateScreen(),
+        ),
+        GoRoute(
+          path: Routers.pathCategoryTypeUpdateScreen,
+          name: Routers.pathCategoryTypeUpdateScreen,
+          builder: (context, state) {
+            final typeId = state.extra as String;
+            return CategoryTypeUpdateScreen(
+              typeId: typeId,
             );
           },
         ),

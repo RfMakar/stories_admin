@@ -697,10 +697,10 @@ packages:
     dependency: transitive
     description:
       name: retrofit
-      sha256: "84d70114a5b6bae5f4c1302335f9cb610ebeb1b02023d5e7e87697aaff52926a"
+      sha256: "699cf44ec6c7fc7d248740932eca75d334e36bdafe0a8b3e9ff93100591c8a25"
       url: "https://pub.dev"
     source: hosted
-    version: "4.6.0"
+    version: "4.7.2"
   rxdart:
     dependency: transitive
     description:
@@ -783,7 +783,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "8c4b9ba3d19f1aa35f80b78761d2558a05fdf8dc"
+      resolved-ref: be39132ad6e0cf8a92bc3b60fb1a7506d237b263
       url: "https://github.com/RfMakar/stories_data.git"
     source: git
     version: "1.0.0"
