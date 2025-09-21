@@ -6,10 +6,13 @@ import 'package:stories_admin/config/UI/app_text_style.dart';
 import 'package:stories_admin/presentation/screens/categories/bloc/categories_bloc.dart';
 import 'package:stories_admin/presentation/screens/category_create/bloc/category_create_bloc.dart';
 import 'package:stories_admin/presentation/widgets/app_button.dart';
+import 'package:stories_admin/presentation/widgets/app_list_tile_radio.dart';
 import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_icon_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
+import 'package:stories_data/models/category_type_model.dart';
 import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/repositories/category_type_repository.dart';
 
 class CategoryCreateScreen extends StatelessWidget {
   const CategoryCreateScreen({super.key});
@@ -17,12 +20,15 @@ class CategoryCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final categoryRepository = diStoriesData<CategoryRepository>();
+    final categoryTypesRepository = diStoriesData<CategoryTypeRepository>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Создать категорию'),
       ),
       body: BlocProvider(
-        create: (context) => CategoryCreateBloc(categoryRepository),
+        create: (context) =>
+            CategoryCreateBloc(categoryRepository, categoryTypesRepository)
+              ..add(const CategoryCreateInitial()),
         child: BlocConsumer<CategoryCreateBloc, CategoryCreateState>(
           listener: (context, state) {
             if (state.status == CategoryCreateStatus.success) {
@@ -77,6 +83,7 @@ class CategoryCreateScreenBody extends StatelessWidget {
                   );
             },
           ),
+          const CategoriesTypesList(),
           const ButtonCategoryCreate(),
         ],
       ),
@@ -102,6 +109,64 @@ class SelectIconCategory extends StatelessWidget {
                 );
           }
         },
+      ),
+    );
+  }
+}
+
+class CategoriesTypesList extends StatelessWidget {
+  const CategoriesTypesList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Column(
+        spacing: 8,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text('Categories Types'),
+          BlocSelector<CategoryCreateBloc, CategoryCreateState,
+              List<CategoryTypeModel>>(
+            selector: (state) {
+              return state.categoriesTypesModel;
+            },
+            builder: (context, categoriesTypes) {
+              if (categoriesTypes.isEmpty) {
+                return const Center(
+                  child: Text('Типов категорий нет'),
+                );
+              }
+              return BlocSelector<CategoryCreateBloc, CategoryCreateState,
+                  String?>(
+                selector: (state) {
+                  return state.categoryTypeSelected;
+                },
+                builder: (context, categoryTypeSelected) {
+                  return ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: categoriesTypes.length,
+                    itemBuilder: (context, index) {
+                      final categoryType = categoriesTypes[index];
+                      return AppListTileRadio(
+                        title: categoryType.name,
+                        isValue: categoryTypeSelected == categoryType.id,
+                        onChanged: (_) {
+                          context
+                              .read<CategoryCreateBloc>()
+                              .add(CategoryCreateSelectedType(
+                                typeId: categoryType.id,
+                              ));
+                        },
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          )
+        ],
       ),
     );
   }

@@ -161,8 +161,8 @@ class CategoryWidget extends StatelessWidget {
                   style: AppTextStyles.s14h000000n,
                 ),
                 Text(
-                  category.id,
-                  style: AppTextStyles.s12hE7E7E7n,
+                  "Тип: ${category.categoryType?.name ?? 'null'}",
+                  style: AppTextStyles.s14h000000n,
                 ),
                 Row(
                   children: [

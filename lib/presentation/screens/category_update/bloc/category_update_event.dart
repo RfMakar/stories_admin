@@ -5,22 +5,26 @@ sealed class CategoryUpdateEvent {
   const CategoryUpdateEvent();
 }
 
-final class CategoryUpdateInitial extends CategoryUpdateEvent{
+final class CategoryUpdateInitial extends CategoryUpdateEvent {
   const CategoryUpdateInitial({required this.categoryId});
   final String categoryId;
 }
 
-final class CategoryUpdateName extends CategoryUpdateEvent{
+final class CategoryUpdateName extends CategoryUpdateEvent {
   const CategoryUpdateName({required this.name});
   final String name;
 }
 
-final class CategoryUpdateIcon extends CategoryUpdateEvent{
+final class CategoryUpdateIcon extends CategoryUpdateEvent {
   const CategoryUpdateIcon({required this.icon});
   final File icon;
 }
 
-final class CategoryUpdate extends CategoryUpdateEvent{
-  const CategoryUpdate();
+final class CategoryUpdateSelectedType extends CategoryUpdateEvent {
+  const CategoryUpdateSelectedType({required this.typeId});
+  final String typeId;
 }
 
+final class CategoryUpdate extends CategoryUpdateEvent {
+  const CategoryUpdate();
+}
