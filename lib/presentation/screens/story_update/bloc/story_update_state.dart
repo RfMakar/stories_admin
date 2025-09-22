@@ -12,7 +12,7 @@ final class StoryUpdateState {
     this.audio,
     this.storyModel,
     this.updateStoryModel,
-    this.categories = const [],
+    this.categoriesTypesModel = const [],
     this.selectedCategoriesIds = const {},
     this.isSubmitting = false,
     this.isValidateData = false,
@@ -26,7 +26,7 @@ final class StoryUpdateState {
   final File? audio;
   final StoryModel? storyModel; //текущая сказка
   final StoryModel? updateStoryModel; //обновленная сказка
-  final List<CategoryModel> categories; //все категории
+  final List<CategoryTypeModel> categoriesTypesModel; //все категории
   final Set<String> selectedCategoriesIds; //выбранные категории
   final bool isSubmitting;
   final bool isValidateData;
@@ -41,7 +41,7 @@ final class StoryUpdateState {
     File? audio,
     StoryModel? storyModel,
     StoryModel? updateStoryModel,
-    List<CategoryModel>? categories,
+    List<CategoryTypeModel>? categoriesTypesModel,
     Set<String>? selectedCategoriesIds,
     bool? isSubmitting,
     bool? isValidateData,
@@ -55,7 +55,7 @@ final class StoryUpdateState {
       image: image ?? this.image,
       audio: audio ?? this.audio,
       storyModel: storyModel ?? this.storyModel,
-      categories: categories ?? this.categories,
+      categoriesTypesModel: categoriesTypesModel ?? this.categoriesTypesModel,
       updateStoryModel: updateStoryModel ?? this.updateStoryModel,
       selectedCategoriesIds:
           selectedCategoriesIds ?? this.selectedCategoriesIds,

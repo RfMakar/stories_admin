@@ -10,7 +10,7 @@ final class StoryCreateState {
     this.content,
     this.image,
     this.audio,
-    this.categories = const [],
+    this.categoriesTypesModel = const [],
     this.selectCategoriesId = const {},
     this.storyModel,
     this.isSubmitting = false,
@@ -23,7 +23,7 @@ final class StoryCreateState {
   final String? content;
   final File? image;
   final File? audio;
-  final List<CategoryModel> categories;
+  final List<CategoryTypeModel> categoriesTypesModel;
   final Set<String> selectCategoriesId;
   final StoryModel? storyModel;
   final bool isSubmitting;
@@ -37,7 +37,7 @@ final class StoryCreateState {
     String? content,
     File? image,
     File? audio,
-    List<CategoryModel>? categories,
+    List<CategoryTypeModel>? categoriesTypesModel,
     Set<String>? selectCategoriesId,
     StoryModel? storyModel,
     bool? isSubmitting,
@@ -51,7 +51,7 @@ final class StoryCreateState {
       content: content ?? this.content,
       image: image ?? this.image,
       audio: audio ?? this.audio,
-      categories: categories ?? this.categories,
+      categoriesTypesModel: categoriesTypesModel ?? this.categoriesTypesModel,
       selectCategoriesId: selectCategoriesId ?? this.selectCategoriesId,
       storyModel: storyModel ?? this.storyModel,
       isSubmitting: isSubmitting ?? this.isSubmitting,

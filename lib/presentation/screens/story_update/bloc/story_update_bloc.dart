@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:stories_admin/core/functions/sort_category_types.dart';
 import 'package:stories_data/core/utils/logger.dart';
-import 'package:stories_data/models/category_model.dart';
+import 'package:stories_data/models/category_type_model.dart';
 import 'package:stories_data/models/story_model.dart';
-import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/repositories/category_type_repository.dart';
 import 'package:stories_data/repositories/story_categories_repository.dart';
 import 'package:stories_data/repositories/story_repository.dart';
 
@@ -15,7 +16,7 @@ part 'story_update_state.dart';
 class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
   StoryUpdateBloc(
     this._storyRepository,
-    this._categoryRepository,
+    this._categoryTypeRepository,
     this._storyCategoriesRepository,
   ) : super(const StoryUpdateState()) {
     on<StoryUpdateInitial>(_initial);
@@ -29,7 +30,7 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
   }
 
   final StoryRepository _storyRepository;
-  final CategoryRepository _categoryRepository;
+  final CategoryTypeRepository _categoryTypeRepository;
   final StoryCategoriesRepository _storyCategoriesRepository;
 
   Future<void> _initial(
@@ -41,19 +42,27 @@ class StoryUpdateBloc extends Bloc<StoryUpdateEvent, StoryUpdateState> {
       final storyData = await _storyRepository.getStory(
         id: event.storyId,
       );
+
       //Загрузка всех категорий
-      final categoriesData = await _categoryRepository.getCategories();
+      final categoriesTypeData =
+          await _categoryTypeRepository.getCategoriesTypes(
+        withCategories: true,
+      );
+      //Cортировка списка
+      final categoriesTypeDataSort = sortCategoryTypes(categoriesTypeData);
+
       //Выбранные категории сказки to set
       final selectedCategoriesIds = storyData.categories
           .map(
             (c) => c.id,
           )
           .toSet();
+
       //Обновление данных
       emit(state.copyWith(
         status: StoryUpdateStatus.success,
         storyModel: storyData,
-        categories: categoriesData,
+        categoriesTypesModel: categoriesTypeDataSort,
         selectedCategoriesIds: selectedCategoriesIds,
       ));
     } on DioException catch (exception) {

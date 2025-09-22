@@ -11,8 +11,8 @@ import 'package:stories_admin/presentation/widgets/app_text_field.dart';
 import 'package:stories_admin/presentation/widgets/select_audio_storage.dart';
 import 'package:stories_admin/presentation/widgets/select_image_storage.dart';
 import 'package:stories_data/core/di_stories_data.dart';
-import 'package:stories_data/models/index.dart';
-import 'package:stories_data/repositories/category_repository.dart';
+import 'package:stories_data/models/category_type_model.dart';
+import 'package:stories_data/repositories/category_type_repository.dart';
 import 'package:stories_data/repositories/story_categories_repository.dart';
 import 'package:stories_data/repositories/story_repository.dart';
 
@@ -22,7 +22,7 @@ class StoryCreateScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final storyRepository = diStoriesData<StoryRepository>();
-    final categoryRepository = diStoriesData<CategoryRepository>();
+    final categoryTypeRepository = diStoriesData<CategoryTypeRepository>();
     final storyCategoriesRepository =
         diStoriesData<StoryCategoriesRepository>();
     return Scaffold(
@@ -32,7 +32,7 @@ class StoryCreateScreen extends StatelessWidget {
       body: BlocProvider(
         create: (context) => StoryCreateBloc(
           storyRepository,
-          categoryRepository,
+          categoryTypeRepository,
           storyCategoriesRepository,
         )..add(const StoryCreateInitial()),
         child: BlocConsumer<StoryCreateBloc, StoryCreateState>(
@@ -114,7 +114,7 @@ class StoryCreateScreenBody extends StatelessWidget {
                   );
             },
           ),
-          const CategoriesList(),
+          const CategoriesTypesList(),
           const ButtonStoryCreate(),
         ],
       ),
@@ -168,8 +168,8 @@ class SelectAudioStory extends StatelessWidget {
   }
 }
 
-class CategoriesList extends StatelessWidget {
-  const CategoriesList({super.key});
+class CategoriesTypesList extends StatelessWidget {
+  const CategoriesTypesList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +180,13 @@ class CategoriesList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Categories'),
-          BlocSelector<StoryCreateBloc, StoryCreateState, List<CategoryModel>>(
+          BlocSelector<StoryCreateBloc, StoryCreateState,
+              List<CategoryTypeModel>>(
             selector: (state) {
-              return state.categories;
+              return state.categoriesTypesModel;
             },
-            builder: (context, categories) {
-              if (categories.isEmpty) {
+            builder: (context, categoriesTypes) {
+              if (categoriesTypes.isEmpty) {
                 return const Center(
                   child: Text('Категорий нет'),
                 );
@@ -193,11 +194,11 @@ class CategoriesList extends StatelessWidget {
               return ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: categories.length,
+                itemCount: categoriesTypes.length,
                 itemBuilder: (context, index) {
-                  final category = categories[index];
+                  final categoryType = categoriesTypes[index];
                   return CategorySelectToStory(
-                    category: category,
+                    categoryType: categoryType,
                   );
                 },
               );
@@ -210,20 +211,33 @@ class CategoriesList extends StatelessWidget {
 }
 
 class CategorySelectToStory extends StatelessWidget {
-  const CategorySelectToStory({super.key, required this.category});
-  final CategoryModel category;
+  const CategorySelectToStory({super.key, required this.categoryType});
+  final CategoryTypeModel categoryType;
   @override
   Widget build(BuildContext context) {
-    return AppListTile(
-      title: category.name,
-      isValue: false,
-      onChanged: (isSelect) {
-        context.read<StoryCreateBloc>().add(
-              StoryCreateCategoryToggle(
-                categoryId: category.id,
-              ),
+    return Column(
+      children: [
+        Text(categoryType.name),
+        ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: categoryType.categories?.length ?? 0,
+          itemBuilder: (context, index) {
+            final category = categoryType.categories?[index];
+            return AppListTile(
+              title: category!.name,
+              isValue: false,
+              onChanged: (isSelect) {
+                context.read<StoryCreateBloc>().add(
+                      StoryCreateCategoryToggle(
+                        categoryId: category.id,
+                      ),
+                    );
+              },
             );
-      },
+          },
+        ),
+      ],
     );
   }
 }

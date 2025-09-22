@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
+import 'package:stories_admin/core/functions/sort_category_types.dart';
 import 'package:stories_data/core/utils/logger.dart';
+import 'package:stories_data/models/category_type_model.dart';
 import 'package:stories_data/models/index.dart';
 import 'package:stories_data/repositories/index.dart';
 
@@ -13,7 +15,7 @@ part 'story_create_state.dart';
 class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
   StoryCreateBloc(
     this._storyRepository,
-    this._categoryRepository,
+    this._categoryTypeRepository,
     this._storyCategoriesRepository,
   ) : super(const StoryCreateState()) {
     on<StoryCreateInitial>(_initial);
@@ -26,7 +28,7 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
     on<StoryCreate>(_createStory);
   }
   final StoryRepository _storyRepository;
-  final CategoryRepository _categoryRepository;
+  final CategoryTypeRepository _categoryTypeRepository;
   final StoryCategoriesRepository _storyCategoriesRepository;
 
   Future<void> _initial(
@@ -34,9 +36,15 @@ class StoryCreateBloc extends Bloc<StoryCreateEvent, StoryCreateState> {
     Emitter<StoryCreateState> emit,
   ) async {
     try {
-      final data = await _categoryRepository.getCategories();
+
+      final data = await _categoryTypeRepository.getCategoriesTypes(
+        withCategories: true,
+      );
+      //Cортировка списка
+      final dataSort = sortCategoryTypes(data);
+
       emit(state.copyWith(
-        categories: List.of(data),
+        categoriesTypesModel: List.of(dataSort),
       ));
     } on DioException catch (exception) {
       emit(state.copyWith(
