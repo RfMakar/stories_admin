@@ -3,9 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:meta/meta.dart';
 import 'package:stories_data/core/utils/logger.dart';
-import 'package:stories_data/models/category_model.dart';
 import 'package:stories_data/models/category_type_model.dart';
-import 'package:stories_data/repositories/category_repository.dart';
 import 'package:stories_data/stories_data.dart';
 
 part 'category_create_event.dart';

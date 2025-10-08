@@ -23,25 +23,29 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   late TextEditingController _controller;
   int _wordCount = 0;
+  late bool _isHasEnglishWords;
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialValue ?? '');
-    _wordCount = countWords(_controller.text);
+    _wordCount = _countWords(_controller.text);
+    _isHasEnglishWords = _hasEnglishWords(_controller.text);
     _controller.addListener(_onTextChanged);
   }
 
   void _onTextChanged() {
     setState(() {
-      _wordCount = countWords(_controller.text);
+      _wordCount = _countWords(_controller.text);
+      _isHasEnglishWords = _hasEnglishWords(_controller.text);
     });
     if (widget.onChanged != null) {
       widget.onChanged!(_controller.text);
     }
   }
 
-  int countWords(String text) {
+  ///Возращает количесво слов
+  int _countWords(String text) {
     if (text.trim().isEmpty) return 0;
 
     // Удаляем пунктуацию (всё кроме букв, цифр, пробелов и подчеркиваний)
@@ -51,6 +55,12 @@ class _AppTextFieldState extends State<AppTextField> {
     final words = cleanedText.trim().split(RegExp(r'\s+'));
 
     return words.length;
+  }
+
+  //Определяет наличие английских слов
+  bool _hasEnglishWords(String text) {
+    ///Проверка на англ буквы
+    return RegExp(r'[a-zA-Z]').hasMatch(text);
   }
 
   @override
@@ -71,7 +81,18 @@ class _AppTextFieldState extends State<AppTextField> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(widget.name),
-              Text('Слов: $_wordCount'),
+              Row(
+                spacing: 20,
+                children: [
+                  _isHasEnglishWords
+                      ? const Text(
+                          'En',
+                          style: TextStyle(color: Colors.red),
+                        )
+                      : Container(),
+                  Text('Слов: $_wordCount'),
+                ],
+              ),
             ],
           ),
           const SizedBox(height: 8),
