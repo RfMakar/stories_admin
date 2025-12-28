@@ -5,10 +5,12 @@ import 'package:stories_admin/config/UI/app_theme.dart';
 import 'package:stories_admin/config/router/router.dart';
 import 'package:stories_admin/presentation/screens/categories/bloc/categories_bloc.dart';
 import 'package:stories_admin/presentation/screens/categories_types/bloc/categories_types_bloc.dart';
+import 'package:stories_admin/presentation/screens/stats/bloc/stats_bloc.dart';
 import 'package:stories_admin/presentation/screens/stories/bloc/stories_bloc.dart';
 import 'package:stories_data/core/di_stories_data.dart';
 import 'package:stories_data/repositories/category_repository.dart';
 import 'package:stories_data/repositories/category_type_repository.dart';
+import 'package:stories_data/repositories/stats_repository.dart';
 import 'package:stories_data/repositories/story_repository.dart';
 
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
@@ -22,6 +24,7 @@ class Application extends StatelessWidget {
     final categoryRepository = diStoriesData<CategoryRepository>();
     final categoryTypeRepository = diStoriesData<CategoryTypeRepository>();
     final storyRepository = diStoriesData<StoryRepository>();
+    final statsRepository = diStoriesData<StatsRepository>();
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -35,6 +38,10 @@ class Application extends StatelessWidget {
         BlocProvider(
           create: (context) =>
               StoriesBloc(storyRepository)..add(const StoriesInitial()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              StatsBloc(statsRepository)..add(const StatsInitial()),
         ),
       ],
       child: MaterialApp.router(

@@ -7,6 +7,7 @@ import 'package:stories_admin/presentation/screens/category_type_create/category
 import 'package:stories_admin/presentation/screens/category_type_update/category_type_update_screen.dart';
 import 'package:stories_admin/presentation/screens/category_update/category_update_screen.dart';
 import 'package:stories_admin/presentation/screens/home/home_screen.dart';
+import 'package:stories_admin/presentation/screens/stats/stats_screen.dart';
 import 'package:stories_admin/presentation/screens/stories/stories_screen.dart';
 import 'package:stories_admin/presentation/screens/story/story_screen.dart';
 import 'package:stories_admin/presentation/screens/story_create/story_create_screen.dart';
@@ -89,6 +90,13 @@ final router = GoRouter(
           builder: (context, state) {
             final story = state.extra as StoryModel;
             return StoryScreen(story: story);
+          },
+        ),
+        GoRoute(
+          path: Routers.pathStatsScreen,
+          name: Routers.pathStatsScreen,
+          builder: (context, state) {
+            return const StatsScreen();
           },
         ),
       ],
